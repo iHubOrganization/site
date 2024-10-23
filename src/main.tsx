@@ -1,10 +1,26 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { createRoot } from "react-dom/client";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Layout from "./app/Layout.tsx";
+import "./index.css";
+import MainPage from "./pages/MainPage.tsx";
+import { ToastContainer } from "react-toastify";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <MainPage />,
+      },
+    ],
+  },
+]);
+
+createRoot(document.getElementById("root")!).render(
+  <>
+    <RouterProvider router={router} />
+    <ToastContainer />
+  </>
+);
