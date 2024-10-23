@@ -1,4 +1,6 @@
 import React from 'react'
+import star from '/src/assets/star.png'
+import cart from '/src/assets/cart.svg'
 
 export interface ProductType {
 	title: string
@@ -25,18 +27,17 @@ const Product: React.FC<ProductType> = (props) => {
 						className='flex justify-center items-center rounded-full w-full h-full'
 						style={{ backgroundColor: props.color }}
 					>
-						<img src='/src/assets/cart.svg' alt='cart' />
+						<img src={cart} alt='cart' />
 					</div>
 				</div>
 			</div>
 			<div className='flex justify-between mt-[35px]'>
 				<div className='flex justify-between gap-[10px]'>
-					<img src='/src/assets/star.png' alt='star' />
-					<img src='/src/assets/star.png' alt='star' />
-					<img src='/src/assets/star.png' alt='star' />
-					<img src='/src/assets/star.png' alt='star' />
-					<img src='/src/assets/star.png' alt='star' />
+					{[...Array(5)].map((_, index) => (
+						<img key={index} src={star} alt='star' />
+					))}
 				</div>
+
 				<span className='text-base text-[#180202] font-bold'>
 					{props.grade}
 				</span>
