@@ -1,50 +1,35 @@
-# React + TypeScript + Vite
+# Сайт
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Функционал:
 
-Currently, two official plugins are available:
+## Задачи:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Создать репозиторий.
+2. Найти фото товара.
+3. Определить цены наушников.
+4. Определить характеристики для наушников и часов.
+5. Выбрать домен.
 
-## Expanding the ESLint configuration
+## Макет
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+https://www.figma.com/file/VoJAS0goG2Ikq45aMUqcs8/Landing-page---Наушники?type=design&node-id=0%3A1&mode=design&t=Dl0lwGPVeYOKt9xr-1
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Turbologo
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```
+https://turbologo.ru/designs/63658681
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### login:
+
+```
+mamniashvili2003@gmail.com
+```
+
+### password:
+
+```
+4815162342Goo
 ```
