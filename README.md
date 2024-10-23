@@ -43,3 +43,9 @@ mamniashvili2003@gmail.com
 ```
 4815162342Goo
 ```
+
+### Если ошибка почты (не актуальный коммит):
+
+```
+git config user.email "mamniashvili2003@gmail.com"
+```
