@@ -1,5 +1,9 @@
 # Сайт
 
+```
+https://site-nhnsseuan-mamniashs-projects.vercel.app/
+```
+
 ## Функционал:
 
 ## Задачи:
@@ -16,7 +20,7 @@
 https://www.figma.com/file/VoJAS0goG2Ikq45aMUqcs8/Landing-page---Наушники?type=design&node-id=0%3A1&mode=design&t=Dl0lwGPVeYOKt9xr-1
 ```
 
-## Turbologo
+## Turbologo | Vercel
 
 ```
 https://turbologo.ru/designs/63658681
