@@ -3,7 +3,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./app/Layout.tsx";
 import "./index.css";
 import MainPage from "./pages/MainPage.tsx";
-import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +18,5 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <>
-    <RouterProvider router={router} />
-    <ToastContainer />
-  </>
+  <RouterProvider router={router} />
 );

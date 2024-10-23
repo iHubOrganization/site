@@ -1,5 +1,12 @@
+import ProductList from '../components/common/ProductList'
+import { productList } from '../data/productList'
+
 function MainPage() {
-  return <h1 className="text-3xl font-bold underline">iHub: Hello world!</h1>;
+	return (
+		<div className='p-4 w-full'>
+			<ProductList productList={productList} />
+		</div>
+	)
 }
 
-export default MainPage;
+export default MainPage
