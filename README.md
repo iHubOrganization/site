@@ -1,7 +1,7 @@
-# Сайт
+# Сайт:
 
 ```
-https://site-nhnsseuan-mamniashs-projects.vercel.app/
+https://site-blush-eight.vercel.app/
 ```
 
 ## Функционал:
@@ -14,25 +14,31 @@ https://site-nhnsseuan-mamniashs-projects.vercel.app/
 4. Определить характеристики для наушников и часов.
 5. Выбрать домен.
 
-## Макет
+## Макет:
 
 ```
 https://www.figma.com/file/VoJAS0goG2Ikq45aMUqcs8/Landing-page---Наушники?type=design&node-id=0%3A1&mode=design&t=Dl0lwGPVeYOKt9xr-1
 ```
 
-## Turbologo | Vercel
+## Turbologo:
 
 ```
 https://turbologo.ru/designs/63658681
 ```
 
-### login:
+## Vercel:
+
+```
+https://vercel.com/mamniashs-projects/site
+```
+
+### login (Turbologo | Vercel):
 
 ```
 mamniashvili2003@gmail.com
 ```
 
-### password:
+### password (Turbologo | Vercel):
 
 ```
 4815162342Goo
