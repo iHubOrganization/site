@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button } from '@mui/material'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { canSendMessage } from '../../helpers/canSendMessage'
 import { sendToTelegram } from '../../helpers/telegramApi'
 import { FormData } from '../../pages/MainPage'
+import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -19,6 +20,22 @@ const Order: React.FC<{
 	formData: FormData
 	setFormData: React.Dispatch<React.SetStateAction<FormData>>
 }> = ({ formData, setFormData }) => {
+	const [city, setCity] = useState<string | null>(null)
+
+	useEffect(() => {
+		const fetchCity = async () => {
+			try {
+				const response = await axios.get('https://ipapi.co/json/')
+				setCity(response.data.city)
+			} catch (error) {
+				console.error('Error fetching location:', error)
+			}
+		}
+		fetchCity()
+	}, [])
+
+	console.log(city)
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setFormData((prev) => ({ ...prev, [name]: value }))
@@ -41,13 +58,14 @@ const Order: React.FC<{
 				messageParts.push(`Промо-код: ${formData.promoCode}`)
 			if (formData.comment)
 				messageParts.push(`Комментарий: ${formData.comment}`)
+			if (city) messageParts.push(`Город: ${city}`)
 
 			const message = messageParts.join('\n')
 
 			try {
 				await sendToTelegram(message)
 				toast.success('Заявка успешно отправлена!')
-				setFormData(initialFormData) // Очистить форму после успешной отправки
+				setFormData(initialFormData)
 			} catch (error) {
 				toast.error('Ошибка при отправке заявки. Попробуйте еще раз позже.')
 				console.error('Error sending message:', error)
@@ -59,12 +77,12 @@ const Order: React.FC<{
 
 	return (
 		<div className='order-form bg-white px-10 py-6 rounded-lg shadow-lg max-w-2xl mx-auto mt-10'>
-			<h2 className='text-center text-3xl font-bold text-gray-800 mb-2'>
+			<h2 className='text-3xl font-bold text-gray-800 mb-2 text-center'>
 				Оставить заявку
 			</h2>
-			<div className='mt-8 form-fields flex flex-col md:flex-row flex-wrap gap-6 justify-center items-center'>
+			<div className='form-fields flex flex-col md:flex-row flex-wrap gap-6 justify-center items-center'>
 				<TextField
-					label='Как к вам обращаться?'
+					label='Имя'
 					variant='outlined'
 					name='name'
 					value={formData.name}
@@ -73,7 +91,7 @@ const Order: React.FC<{
 					required
 				/>
 				<TextField
-					label='Введите телефон'
+					label='Телефон'
 					variant='outlined'
 					name='phone'
 					value={formData.phone}
