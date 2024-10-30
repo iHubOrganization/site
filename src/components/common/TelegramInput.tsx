@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import { sendToTelegram } from '../../helpers/telegramApi'
+import { canSendMessage } from '../../helpers/canSendMessage'
 
 const TelegramInput: React.FC = () => {
 	const [inputText, setInputText] = useState<string>('')
 
 	const handleSend = () => {
+		if (!canSendMessage()) {
+			alert('Пожалуйста, подождите немного перед повторной отправкой.')
+			return
+		}
+
 		if (inputText.trim() !== '') {
 			sendToTelegram(inputText)
 			setInputText('') // Очистка поля после отправки

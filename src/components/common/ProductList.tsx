@@ -17,9 +17,9 @@ const ProductList: React.FC<ProductListType> = ({ productList }) => {
 			</p>
 			<div className='flex justify-center items-center mt-[64px] md:mt-[78px] xl:mt-[91px]'>
 				<div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-16'>
-					{productList.map((product) => (
+					{productList.map((product, index) => (
 						<Product
-							key={product.title}
+							key={product.title + index}
 							title={product.title}
 							grade={product.grade}
 							img={product.img}
