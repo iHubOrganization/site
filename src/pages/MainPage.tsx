@@ -35,30 +35,25 @@ function MainPage() {
 	const [cart, setCart] = useState<CartItem[]>([])
 	const [isCartOpen, setIsCartOpen] = useState(false)
 
-	// Загружаем корзину из localStorage при первой загрузке компонента
+	// Загрузка и сохранение корзины в localStorage
 	useEffect(() => {
 		const savedCart = localStorage.getItem('cart')
-		if (savedCart) {
-			setCart(JSON.parse(savedCart))
-		}
+		if (savedCart) setCart(JSON.parse(savedCart))
 	}, [])
 
-	// Сохраняем корзину в localStorage при каждом изменении состояния cart
 	useEffect(() => {
 		localStorage.setItem('cart', JSON.stringify(cart))
 	}, [cart])
 
-	// Функция для добавления или удаления товара из корзины
+	// Добавление и удаление товара из корзины
 	const addToCart = (product: ProductType) => {
 		setCart((prevCart) => {
 			const existingItem = prevCart.find(
 				(item) => item.title === product.title
 			)
 			if (existingItem) {
-				// Если товар уже в корзине, удаляем его при повторном нажатии
 				return prevCart.filter((item) => item.title !== product.title)
 			} else {
-				// Если товара нет в корзине, добавляем его
 				return [...prevCart, { ...product, quantity: 1 }]
 			}
 		})
@@ -68,16 +63,20 @@ function MainPage() {
 	const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0)
 
 	return (
-		<div className='w-full bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen'>
-			{/* Иконка корзины, которая появляется с анимацией, если есть товары */}
+		<div className='w-full bg-white min-h-screen'>
+			{/* Анимированная иконка корзины, появляется и исчезает плавно */}
 			{totalItems > 0 && (
-				<div className='fixed top-4 right-4 z-50'>
+				<div className='fixed top-4 right-4 z-50 transition-opacity duration-500 ease-in-out opacity-100'>
 					<CartIcon cart={cart} onClick={() => setIsCartOpen(true)} />
 				</div>
 			)}
 
 			<div className='p-4'>
-				<ProductList productList={productList} addToCart={addToCart} />
+				<ProductList
+					productList={productList}
+					addToCart={addToCart}
+					cart={cart}
+				/>
 				<WhatInTheBox />
 				<Order formData={formData} setFormData={setFormData} />
 			</div>

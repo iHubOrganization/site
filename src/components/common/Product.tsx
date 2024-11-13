@@ -12,9 +12,16 @@ export interface ProductType {
 interface ProductProps {
 	product: ProductType
 	addToCart: (product: ProductType) => void
+	isInCart: boolean
+	quantityInCart: number
 }
 
-const Product: React.FC<ProductProps> = ({ product, addToCart }) => {
+const Product: React.FC<ProductProps> = ({
+	product,
+	addToCart,
+	isInCart,
+	quantityInCart
+}) => {
 	const handleCartClick = () => {
 		addToCart(product)
 	}
@@ -33,10 +40,16 @@ const Product: React.FC<ProductProps> = ({ product, addToCart }) => {
 					/>
 				</div>
 				<div
-					className='absolute top-2 right-2 p-2 bg-gray-100 rounded-full cursor-pointer transition-transform transform hover:scale-110 active:scale-95'
+					className={`absolute top-2 right-2 p-2 rounded-full cursor-pointer transition-transform transform hover:scale-110 active:scale-95 
+						${isInCart ? 'bg-[#F54F29] text-white' : 'bg-gray-100 text-gray-700'}`}
 					onClick={handleCartClick}
 				>
-					<FaShoppingCart size={24} className='text-gray-700' />
+					<FaShoppingCart size={24} />
+					{isInCart && (
+						<span className='absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold'>
+							{quantityInCart}
+						</span>
+					)}
 				</div>
 			</div>
 			<div className='flex justify-between items-center mt-4'>
