@@ -3,7 +3,7 @@ import { TextField, Button } from '@mui/material'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { canSendMessage } from '../../helpers/canSendMessage'
 import { sendToTelegram } from '../../helpers/telegramApi'
-import { FormData } from '../../pages/MainPage'
+import { FormData, CartItem } from '../../pages/MainPage'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -20,8 +20,12 @@ const initialFormData: FormData = {
 const Order: React.FC<{
 	formData: FormData
 	setFormData: React.Dispatch<React.SetStateAction<FormData>>
-}> = ({ formData, setFormData }) => {
+	cartItems: CartItem[]
+	totalAmount: string
+	clearCart: () => void
+}> = ({ formData, setFormData, cartItems, totalAmount, clearCart }) => {
 	const [city, setCity] = useState<string | null>(null)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	useEffect(() => {
 		const fetchCity = async () => {
@@ -41,8 +45,12 @@ const Order: React.FC<{
 	}
 
 	const handleSubmit = async () => {
+		if (isSubmitting) return
+		setIsSubmitting(true)
+
 		if (!formData.name || !formData.phone) {
 			toast.error('Пожалуйста, заполните обязательные поля: Имя и Телефон')
+			setIsSubmitting(false)
 			return
 		}
 
@@ -58,6 +66,15 @@ const Order: React.FC<{
 			if (formData.comment)
 				messageParts.push(`Комментарий: ${formData.comment}`)
 			if (city) messageParts.push(`Город: ${city}`)
+			if (cartItems.length > 0) {
+				messageParts.push('\nТовары в корзине:')
+				cartItems.forEach((item) => {
+					messageParts.push(
+						`${item.title} - ${item.quantity} x ${item.price} руб.`
+					)
+				})
+				messageParts.push(`Итоговая стоимость: ${totalAmount} руб.`)
+			}
 
 			const message = messageParts.join('\n')
 
@@ -65,6 +82,7 @@ const Order: React.FC<{
 				await sendToTelegram(message)
 				toast.success('Заявка успешно отправлена!')
 				setFormData(initialFormData)
+				clearCart() // Очищаем корзину после успешной отправки
 			} catch (error) {
 				toast.error('Ошибка при отправке заявки. Попробуйте еще раз позже.')
 				console.error('Error sending message:', error)
@@ -72,11 +90,13 @@ const Order: React.FC<{
 		} else {
 			toast.warn('Пожалуйста, подождите минуту перед повторной отправкой.')
 		}
+
+		setIsSubmitting(false)
 	}
 
 	return (
 		<div className='order-form bg-white px-10 py-6 rounded-lg shadow-lg max-w-2xl mx-auto mt-6'>
-			<h2 className='text-3xl font-bold text-gray-800 mb-2 text-center'>
+			<h2 className='text-3xl font-bold text-[#F54F29] mb-2 text-center'>
 				Оставить заявку
 			</h2>
 			<div className='form-fields flex flex-col md:flex-row flex-wrap gap-6 justify-center items-center mt-6'>
@@ -90,7 +110,7 @@ const Order: React.FC<{
 					required
 				/>
 				<InputMask
-					mask='+7 (999) 999-99-99' // Маска для телефона
+					mask='+7 (999) 999-99-99'
 					value={formData.phone}
 					onChange={handleChange}
 				>
@@ -130,11 +150,13 @@ const Order: React.FC<{
 					rows={4}
 					className='w-full md:w-2/3'
 				/>
+
 				<Button
 					variant='contained'
 					color='primary'
 					className='submit-button bg-[#F54F29] text-white py-3 px-6 rounded-full shadow-md hover:bg-[#e14524]'
 					onClick={handleSubmit}
+					disabled={isSubmitting} // Отключаем кнопку во время отправки
 				>
 					<FaTelegramPlane className='mr-2' /> Оставить заявку
 				</Button>

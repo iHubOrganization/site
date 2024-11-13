@@ -10,42 +10,42 @@ export const productList: ProductType[] = [
 		title: 'AirPods Max',
 		grade: '4.80',
 		img: max,
-		color: '#FFE5EE',
-		price: '9 990'
+		color: '#FF6F61',
+		price: '9990'
 	},
 	{
 		title: 'AirPods Pro',
 		grade: '4.90',
 		img: pro,
-		color: '#E5F1FF',
-		price: '3 490'
+		color: '#6A5ACD',
+		price: '3490'
 	},
 	{
 		title: 'AirPods 2',
 		grade: '4.70',
 		img: pro,
-		color: '#E5FFFB',
-		price: '1 990'
+		color: '#F4A261',
+		price: '1990'
 	},
 	{
 		title: 'AirPods 3',
 		grade: '4.75',
 		img: pro,
-		color: '#FFE5EE',
-		price: '2 490'
+		color: '#0077B6',
+		price: '2490'
 	},
 	{
 		title: 'Apple Watch Series 9',
 		grade: '4.85',
 		img: w1,
-		color: '#E5F1FF',
-		price: '3 990'
+		color: '#FF8C00',
+		price: '3990'
 	},
 	{
 		title: 'Apple Watch Ultra 2',
 		grade: '4.95',
 		img: w2,
-		color: '#E5FFFB',
-		price: '4 990'
+		color: '#2E8B57',
+		price: '4990'
 	}
 ]

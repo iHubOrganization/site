@@ -13,12 +13,7 @@ const CartIcon: React.FC<CartIconProps> = ({ cart, onClick }) => {
 
 	return (
 		<div
-			className={`relative p-3 rounded-full shadow-lg cursor-pointer transition-all transform hover:scale-110 
-				${
-					totalItems > 0
-						? 'bg-[#F54F29] text-white'
-						: 'bg-gray-100 text-gray-700'
-				} animate-fadeInOut`}
+			className='fixed top-4 right-4 p-3 rounded-full bg-[#F54F29] text-white cursor-pointer shadow-lg z-50 transition-all transform hover:scale-110'
 			onClick={onClick}
 		>
 			<FaShoppingCart size={24} />

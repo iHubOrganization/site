@@ -45,8 +45,17 @@ function MainPage() {
 		localStorage.setItem('cart', JSON.stringify(cart))
 	}, [cart])
 
+	// Подсчитываем общую стоимость товаров в корзине
+	const totalAmount = cart
+		.reduce(
+			(acc, item) =>
+				acc + item.quantity * parseFloat(item.price.replace(/\s+/g, '')),
+			0
+		)
+		.toFixed(2)
+
 	// Добавление и удаление товара из корзины
-	const addToCart = (product: ProductType) => {
+	const toggleCartItem = (product: ProductType) => {
 		setCart((prevCart) => {
 			const existingItem = prevCart.find(
 				(item) => item.title === product.title
@@ -62,30 +71,55 @@ function MainPage() {
 	// Подсчитываем общее количество товаров в корзине для отображения на иконке
 	const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0)
 
+	// Прокрутка к секции Order
+	const scrollToOrder = () => {
+		setIsCartOpen(false)
+		setTimeout(() => {
+			document
+				.getElementById('order-section')
+				?.scrollIntoView({ behavior: 'smooth' })
+		}, 300)
+	}
+
+	// Очистка корзины
+	const clearCart = () => setCart([])
+
 	return (
-		<div className='w-full bg-white min-h-screen'>
-			{/* Анимированная иконка корзины, появляется и исчезает плавно */}
+		<div className='w-full bg-white min-h-screen px-4 pt-6 md:px-6 lg:px-12'>
 			{totalItems > 0 && (
 				<div className='fixed top-4 right-4 z-50 transition-opacity duration-500 ease-in-out opacity-100'>
 					<CartIcon cart={cart} onClick={() => setIsCartOpen(true)} />
 				</div>
 			)}
 
-			<div className='p-4'>
+			<div className='p-4 md:p-6 lg:p-8'>
 				<ProductList
 					productList={productList}
-					addToCart={addToCart}
+					toggleCartItem={toggleCartItem}
 					cart={cart}
 				/>
 				<WhatInTheBox />
-				<Order formData={formData} setFormData={setFormData} />
+				<div id='order-section'>
+					{/* Передаем данные корзины и итоговую стоимость в Order */}
+					<Order
+						formData={formData}
+						setFormData={setFormData}
+						cartItems={cart}
+						totalAmount={totalAmount}
+						clearCart={clearCart}
+					/>
+				</div>
 			</div>
 			<Footer />
 
-			{/* Модальное окно корзины */}
 			{isCartOpen && (
 				<Modal blackout onClose={() => setIsCartOpen(false)}>
-					<CartPage cart={cart} />
+					<CartPage
+						cart={cart}
+						clearCart={clearCart}
+						onOrderClick={scrollToOrder}
+						totalAmount={totalAmount}
+					/>
 				</Modal>
 			)}
 		</div>
