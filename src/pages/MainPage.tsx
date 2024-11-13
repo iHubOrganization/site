@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ProductList from '../components/common/ProductList'
 import WhatInTheBox from '../components/common/WhatInTheBox'
 import Order from '../components/common/Order'
