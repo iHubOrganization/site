@@ -1,6 +1,5 @@
 import React from 'react'
-import star from '/src/assets/star.png'
-import cart from '/src/assets/cart.svg'
+import { FaShoppingCart, FaStar } from 'react-icons/fa'
 
 export interface ProductType {
 	title: string
@@ -10,41 +9,54 @@ export interface ProductType {
 	price: string
 }
 
-const Product: React.FC<ProductType> = (props) => {
+interface ProductProps {
+	product: ProductType
+	addToCart: (product: ProductType) => void
+}
+
+const Product: React.FC<ProductProps> = ({ product, addToCart }) => {
+	const handleCartClick = () => {
+		addToCart(product)
+	}
+
 	return (
-		<div>
+		<div className='transition-transform transform hover:scale-105 active:scale-95'>
 			<div
-				className='w-[333px] h-[333px] rounded-lg shadow-md p-4 text-center relative'
-				style={{ backgroundColor: props.color }}
+				className='w-full h-[350px] rounded-lg shadow-md p-4 text-center relative transition-all duration-300 ease-out hover:shadow-xl'
+				style={{ backgroundColor: product.color }}
 			>
-				<img
-					src={props.img}
-					alt={props.title}
-					className='absolute left-6 bottom-6'
-				/>
-				<div className='absolute bottom-[282px] left-[283px] w-[80px] h-[80px] flex justify-center items-center bg-white rounded-full p-1'>
-					<div
-						className='flex justify-center items-center rounded-full w-full h-full'
-						style={{ backgroundColor: props.color }}
-					>
-						<img src={cart} alt='cart' />
-					</div>
+				<div className='w-full h-[250px] flex items-center justify-center'>
+					<img
+						src={product.img}
+						alt={product.title}
+						className='object-contain h-full max-h-full scale-125 translate-y-8'
+					/>
+				</div>
+				<div
+					className='absolute top-2 right-2 p-2 bg-gray-100 rounded-full cursor-pointer transition-transform transform hover:scale-110 active:scale-95'
+					onClick={handleCartClick}
+				>
+					<FaShoppingCart size={24} className='text-gray-700' />
 				</div>
 			</div>
-			<div className='flex justify-between mt-[35px]'>
-				<div className='flex justify-between gap-[10px]'>
+			<div className='flex justify-between items-center mt-4'>
+				<div className='flex gap-1'>
 					{[...Array(5)].map((_, index) => (
-						<img key={index} src={star} alt='star' />
+						<FaStar
+							key={index}
+							className='text-yellow-500 opacity-80 hover:opacity-100 transition-opacity'
+						/>
 					))}
 				</div>
-
-				<span className='text-base text-[#180202] font-bold'>
-					{props.grade}
+				<span className='text-base font-semibold text-gray-700'>
+					{product.grade}
 				</span>
 			</div>
-			<div className='flex justify-between mt-[16px]'>
-				<p className='text-xl text-[#180202] '>{props.title}</p>
-				<p className='text-xl text-[#180202] font-bold'>${props.price}</p>
+			<div className='flex justify-between items-center mt-2'>
+				<p className='text-lg font-medium text-gray-800'>{product.title}</p>
+				<p className='text-lg font-bold text-gray-900'>
+					{product.price} руб.
+				</p>
 			</div>
 		</div>
 	)

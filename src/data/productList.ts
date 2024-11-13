@@ -1,50 +1,51 @@
-import headphones1 from '../assets/headphones1.png'
-import headphones2 from '../assets/headphones2.png'
-import headphones3 from '../assets/headphones3.png'
+import max from '../assets/max/pink.png'
+import pro from '../assets/pro/1.png'
+import w1 from '../assets/whatch/image.png'
+import w2 from '../assets/whatch2/image.png'
 
 import { ProductType } from '../components/common/Product'
 
 export const productList: ProductType[] = [
 	{
-		title: 'Read Headphone',
-		grade: '4.70',
-		img: headphones1,
-		color: '#FFE5EE',
-		price: '256'
-	},
-	{
-		title: 'Blue Headphone',
-		grade: '4.90',
-		img: headphones2,
-		color: '#E5F1FF',
-		price: '235'
-	},
-	{
-		title: 'Green Headphone',
+		title: 'AirPods Max',
 		grade: '4.80',
-		img: headphones3,
-		color: '#E5FFFB',
-		price: '245'
-	},
-	{
-		title: 'Read Headphone',
-		grade: '4.70',
-		img: headphones1,
+		img: max,
 		color: '#FFE5EE',
-		price: '256'
+		price: '9 990'
 	},
 	{
-		title: 'Blue Headphone',
+		title: 'AirPods Pro',
 		grade: '4.90',
-		img: headphones2,
+		img: pro,
 		color: '#E5F1FF',
-		price: '235'
+		price: '3 490'
 	},
 	{
-		title: 'Green Headphone',
-		grade: '4.80',
-		img: headphones3,
+		title: 'AirPods 2',
+		grade: '4.70',
+		img: pro,
 		color: '#E5FFFB',
-		price: '245'
+		price: '1 990'
+	},
+	{
+		title: 'AirPods 3',
+		grade: '4.75',
+		img: pro,
+		color: '#FFE5EE',
+		price: '2 490'
+	},
+	{
+		title: 'Apple Watch Series 9',
+		grade: '4.85',
+		img: w1,
+		color: '#E5F1FF',
+		price: '3 990'
+	},
+	{
+		title: 'Apple Watch Ultra 2',
+		grade: '4.95',
+		img: w2,
+		color: '#E5FFFB',
+		price: '4 990'
 	}
 ]

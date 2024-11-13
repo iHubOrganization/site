@@ -7,6 +7,7 @@ import { FormData } from '../../pages/MainPage'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import InputMask from 'react-input-mask'
 
 const initialFormData: FormData = {
 	name: '',
@@ -33,8 +34,6 @@ const Order: React.FC<{
 		}
 		fetchCity()
 	}, [])
-
-	console.log(city)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -76,11 +75,11 @@ const Order: React.FC<{
 	}
 
 	return (
-		<div className='order-form bg-white px-10 py-6 rounded-lg shadow-lg max-w-2xl mx-auto mt-10'>
+		<div className='order-form bg-white px-10 py-6 rounded-lg shadow-lg max-w-2xl mx-auto mt-6'>
 			<h2 className='text-3xl font-bold text-gray-800 mb-2 text-center'>
 				Оставить заявку
 			</h2>
-			<div className='form-fields flex flex-col md:flex-row flex-wrap gap-6 justify-center items-center'>
+			<div className='form-fields flex flex-col md:flex-row flex-wrap gap-6 justify-center items-center mt-6'>
 				<TextField
 					label='Имя'
 					variant='outlined'
@@ -90,15 +89,21 @@ const Order: React.FC<{
 					className='w-full md:w-1/3'
 					required
 				/>
-				<TextField
-					label='Телефон'
-					variant='outlined'
-					name='phone'
+				<InputMask
+					mask='+7 (999) 999-99-99' // Маска для телефона
 					value={formData.phone}
 					onChange={handleChange}
-					className='w-full md:w-1/3'
-					required
-				/>
+				>
+					{() => (
+						<TextField
+							label='Телефон'
+							variant='outlined'
+							name='phone'
+							className='w-full md:w-1/3'
+							required
+						/>
+					)}
+				</InputMask>
 				<TextField
 					label='Telegram'
 					variant='outlined'
