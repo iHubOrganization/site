@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaShoppingCart, FaStar } from 'react-icons/fa'
+import ProductPopup from './ProductPopup'
 
 export interface ProductType {
 	title: string
@@ -11,7 +12,12 @@ export interface ProductType {
 
 interface ProductProps {
 	product: ProductType
-	toggleCartItem: (product: ProductType) => void
+	toggleCartItem: (
+		product: ProductType,
+		quantity: number,
+		color: string,
+		caseType: string | null
+	) => void
 	isInCart: boolean
 	quantityInCart: number
 }
@@ -22,12 +28,19 @@ const Product: React.FC<ProductProps> = ({
 	isInCart,
 	quantityInCart
 }) => {
-	const handleCartToggle = () => toggleCartItem(product)
+	const [isPopupOpen, setIsPopupOpen] = useState(false)
+
+	const handleCartIconClick = (event: React.MouseEvent) => {
+		event.stopPropagation()
+		toggleCartItem(product, 1, product.color, null)
+	}
+
+	const handleProductClick = () => setIsPopupOpen(true)
 
 	return (
 		<div
 			className='transition-transform transform scale-100 hover:scale-105 active:scale-95'
-			onClick={handleCartToggle}
+			onClick={handleProductClick}
 		>
 			<div
 				className='w-full h-[350px] rounded-lg shadow-md p-4 text-center relative transition-transform duration-300 ease-out'
@@ -42,12 +55,14 @@ const Product: React.FC<ProductProps> = ({
 						className='object-contain h-full max-h-full scale-125 translate-y-8'
 					/>
 				</div>
+
 				<div
 					className={`absolute top-2 right-2 p-3 bg-white rounded-full border-2 ${
 						isInCart ? 'border-[#F54F29]' : 'border-gray-400'
 					} cursor-pointer shadow-lg transform transition-transform hover:scale-110 active:scale-95 ${
 						isInCart ? 'text-[#F54F29]' : 'text-gray-700'
 					}`}
+					onClick={handleCartIconClick}
 				>
 					<FaShoppingCart size={20} />
 					{isInCart && (
@@ -57,6 +72,7 @@ const Product: React.FC<ProductProps> = ({
 					)}
 				</div>
 			</div>
+
 			<div className='flex justify-between items-center mt-4'>
 				<div className='flex gap-1'>
 					{[...Array(5)].map((_, index) => (
@@ -70,12 +86,22 @@ const Product: React.FC<ProductProps> = ({
 					{product.grade}
 				</span>
 			</div>
+
 			<div className='flex justify-between items-center mt-2'>
 				<p className='text-lg font-medium text-gray-800'>{product.title}</p>
 				<p className='text-lg font-bold text-gray-900'>
 					{product.price} руб.
 				</p>
 			</div>
+
+			{isPopupOpen && (
+				<ProductPopup
+					open={isPopupOpen}
+					onClose={() => setIsPopupOpen(false)}
+					product={product}
+					toggleCartItem={toggleCartItem}
+				/>
+			)}
 		</div>
 	)
 }

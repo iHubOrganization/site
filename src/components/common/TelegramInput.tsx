@@ -13,7 +13,7 @@ const TelegramInput: React.FC = () => {
 
 		if (inputText.trim() !== '') {
 			sendToTelegram(inputText)
-			setInputText('') // Очистка поля после отправки
+			setInputText('')
 		} else {
 			alert('Пожалуйста, введите текст!')
 		}

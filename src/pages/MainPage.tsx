@@ -35,7 +35,6 @@ function MainPage() {
 	const [cart, setCart] = useState<CartItem[]>([])
 	const [isCartOpen, setIsCartOpen] = useState(false)
 
-	// Загрузка и сохранение корзины в localStorage
 	useEffect(() => {
 		const savedCart = localStorage.getItem('cart')
 		if (savedCart) setCart(JSON.parse(savedCart))
@@ -45,7 +44,6 @@ function MainPage() {
 		localStorage.setItem('cart', JSON.stringify(cart))
 	}, [cart])
 
-	// Подсчитываем общую стоимость товаров в корзине
 	const totalAmount = cart
 		.reduce(
 			(acc, item) =>
@@ -54,7 +52,6 @@ function MainPage() {
 		)
 		.toFixed(2)
 
-	// Добавление и удаление товара из корзины
 	const toggleCartItem = (product: ProductType) => {
 		setCart((prevCart) => {
 			const existingItem = prevCart.find(
@@ -68,10 +65,8 @@ function MainPage() {
 		})
 	}
 
-	// Подсчитываем общее количество товаров в корзине для отображения на иконке
 	const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0)
 
-	// Прокрутка к секции Order
 	const scrollToOrder = () => {
 		setIsCartOpen(false)
 		setTimeout(() => {
@@ -81,7 +76,6 @@ function MainPage() {
 		}, 300)
 	}
 
-	// Очистка корзины
 	const clearCart = () => setCart([])
 
 	return (
@@ -100,7 +94,6 @@ function MainPage() {
 				/>
 				<WhatInTheBox />
 				<div id='order-section'>
-					{/* Передаем данные корзины и итоговую стоимость в Order */}
 					<Order
 						formData={formData}
 						setFormData={setFormData}

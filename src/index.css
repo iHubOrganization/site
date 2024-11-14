@@ -52,4 +52,13 @@ body {
 	animation: fadeInOut 0.5s ease-in-out;
 }
 
+/* Пример адаптивных стилей */
+@media (max-width: 768px) {
+	.product-popup {
+		max-height: 90vh;
+		overflow-y: auto;
+	}
+}
+
+
 

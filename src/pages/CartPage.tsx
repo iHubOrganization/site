@@ -1,6 +1,8 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import { Box, Typography, Button, Divider } from '@mui/material'
+import { FaTrash } from 'react-icons/fa'
 import { CartItem } from './MainPage'
+import { motion } from 'framer-motion'
 
 interface CartPageProps {
 	cart: CartItem[]
@@ -16,57 +18,76 @@ const CartPage: React.FC<CartPageProps> = ({
 	totalAmount
 }) => {
 	return (
-		<div className='p-6 bg-white rounded-lg shadow-lg w-full max-w-md mx-auto text-gray-800'>
-			<h2 className='text-3xl font-bold mb-6 text-center text-[#F54F29]'>
+		<Box
+			sx={{
+				p: 3,
+				backgroundColor: 'white',
+				borderRadius: 1,
+				boxShadow: 2,
+				maxWidth: 400,
+				mx: 'auto',
+				textAlign: 'center'
+			}}
+		>
+			<Typography variant='h5' color='primary' gutterBottom>
 				Корзина
-			</h2>
+			</Typography>
 			{cart.length === 0 ? (
-				<p className='text-center text-gray-500'>Ваша корзина пуста.</p>
+				<Typography color='textSecondary'>Ваша корзина пуста.</Typography>
 			) : (
-				<div>
-					<ul className='space-y-4 mb-6'>
-						{cart.map((item) => (
-							<li
-								key={item.title}
-								className='flex justify-between items-center text-base'
+				<Box>
+					{cart.map((item) => (
+						<Box
+							key={item.title}
+							display='flex'
+							justifyContent='space-between'
+							mb={1}
+						>
+							<Typography variant='body1'>{item.title}</Typography>
+							<Typography variant='body1'>
+								{item.quantity} x {item.price} ₽
+							</Typography>
+						</Box>
+					))}
+					<Divider sx={{ my: 2 }} />
+					<Box display='flex' justifyContent='space-between' mb={2}>
+						<Typography variant='h6'>Итоговая стоимость:</Typography>
+						<Typography variant='h6' color='primary'>
+							{totalAmount} ₽
+						</Typography>
+					</Box>
+					<Box display='flex' gap={2}>
+						<motion.div
+							whileHover={{ scale: 1.05 }}
+							transition={{ type: 'spring', stiffness: 300 }}
+						>
+							<Button
+								variant='contained'
+								color='secondary'
+								startIcon={<FaTrash />}
+								fullWidth
+								onClick={clearCart}
 							>
-								<span
-									className='font-semibold w-1/2 whitespace-nowrap
-'
-								>
-									{item.title}
-								</span>
-								<span className='font-medium w-1/2 text-right'>
-									{item.quantity} x {item.price} ₽
-								</span>
-							</li>
-						))}
-					</ul>
-					<div className='flex justify-between items-center mb-6 text-lg font-semibold'>
-						<span>Итоговая стоимость:</span>
-						<span className='text-xl font-bold'>{totalAmount} ₽</span>
-					</div>
-					<div className='flex gap-4'>
-						<Button
-							onClick={clearCart}
-							variant='contained'
-							color='secondary'
-							className='flex-1 py-2 bg-purple-500 text-white hover:bg-purple-600'
+								Очистить корзину
+							</Button>
+						</motion.div>
+						<motion.div
+							whileHover={{ scale: 1.05 }}
+							transition={{ type: 'spring', stiffness: 300 }}
 						>
-							Очистить корзину
-						</Button>
-						<Button
-							onClick={onOrderClick}
-							variant='contained'
-							color='primary'
-							className='flex-1 py-2 bg-[#F54F29] text-white hover:bg-[#e14524]'
-						>
-							Заказать
-						</Button>
-					</div>
-				</div>
+							<Button
+								variant='contained'
+								color='primary'
+								fullWidth
+								onClick={onOrderClick}
+							>
+								Заказать
+							</Button>
+						</motion.div>
+					</Box>
+				</Box>
 			)}
-		</div>
+		</Box>
 	)
 }
 
