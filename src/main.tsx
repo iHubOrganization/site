@@ -5,6 +5,17 @@ import "./index.css";
 import MainPage from "./pages/MainPage.tsx";
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+const theme = createTheme({
+	palette: {
+		primary: { main: '#0077B6' },
+		secondary: { main: '#FF6F61' }
+	},
+	typography: {
+		fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+	}
+})
 
 const router = createBrowserRouter([
 	{
@@ -20,7 +31,7 @@ const router = createBrowserRouter([
 ])
 
 createRoot(document.getElementById('root')!).render(
-	<>
+	<ThemeProvider theme={theme}>
 		<RouterProvider router={router} />
 		<ToastContainer
 			position='top-right' // Позиция внизу по центру
@@ -39,5 +50,5 @@ createRoot(document.getElementById('root')!).render(
 				padding: '10px' // Дополнительные отступы для удобства
 			}}
 		/>
-	</>
+	</ThemeProvider>
 )

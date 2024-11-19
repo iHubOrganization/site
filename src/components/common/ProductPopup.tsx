@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-	Modal,
-	Backdrop,
-	Fade,
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	DialogActions,
 	Button,
-	MenuItem,
-	Select,
-	TextField,
+	Grid,
 	Typography,
 	IconButton
 } from '@mui/material'
-import { FaTimes } from 'react-icons/fa'
+import { FaShoppingCart } from 'react-icons/fa'
 import { ProductType } from './Product'
 
 interface ProductPopupProps {
@@ -31,123 +30,87 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 	product,
 	toggleCartItem
 }) => {
-	const [quantity, setQuantity] = useState(1)
-	const [selectedColor, setSelectedColor] = useState(product.color)
-	const [selectedCase, setSelectedCase] = useState<string | null>(null)
+	const additionalImages = [product.img, product.img, product.img, product.img]
 
 	const handleAddToCart = () => {
-		toggleCartItem(product, quantity, selectedColor, selectedCase)
-		onClose()
+		toggleCartItem(product, 1, product.color, null)
 	}
 
 	return (
-		<Modal
-			open={open}
-			onClose={onClose}
-			closeAfterTransition
-			BackdropComponent={Backdrop}
-			BackdropProps={{ style: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
-		>
-			<Fade in={open}>
-				<div
-					style={{
-						backgroundColor: '#ffffff',
-						padding: '24px',
-						borderRadius: '10px',
-						boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-						maxWidth: '500px',
-						margin: 'auto',
-						outline: 'none',
-						maxHeight: '90vh',
-						overflowY: 'auto',
-						position: 'relative'
-					}}
-					onClick={(e) => e.stopPropagation()}
-				>
-					<IconButton
-						onClick={onClose}
-						style={{
-							position: 'absolute',
-							top: '8px',
-							right: '8px',
-							color: '#555'
-						}}
-						aria-label='Close'
-					>
-						<FaTimes size={20} />
-					</IconButton>
-
-					<Typography variant='h6' component='h2' gutterBottom>
+		<Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+			<DialogTitle>
+				<div className='flex justify-between items-center'>
+					<Typography variant='h6' color='primary'>
 						{product.title}
 					</Typography>
-					<div
-						style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}
-					>
+					<IconButton onClick={onClose}>
+						<span className='text-gray-500 hover:text-red-500'>
+							&times;
+						</span>
+					</IconButton>
+				</div>
+			</DialogTitle>
+			<DialogContent>
+				<Grid container spacing={3}>
+					{/* Основное изображение */}
+					<Grid item xs={12} md={6}>
 						<img
 							src={product.img}
 							alt={product.title}
-							style={{
-								width: '100px',
-								height: '100px',
-								objectFit: 'cover'
-							}}
+							style={{ width: '100%', borderRadius: 8 }}
 						/>
-					</div>
-					<Typography variant='body1' style={{ marginBottom: '16px' }}>
-						Цена: {product.price} руб.
-					</Typography>
-
-					<div style={{ marginBottom: '16px' }}>
-						<Typography variant='subtitle1'>Выберите цвет:</Typography>
-						<Select
-							value={selectedColor}
-							onChange={(e) =>
-								setSelectedColor(e.target.value as string)
-							}
+					</Grid>
+					{/* Описание товара */}
+					<Grid item xs={12} md={6}>
+						<Typography variant='body1' gutterBottom>
+							{`Описание товара: ${product.title} - это высококачественное устройство с рейтингом ${product.grade}.`}
+						</Typography>
+						<Typography variant='body2' gutterBottom>
+							Цвет: {product.color}
+						</Typography>
+						<Typography variant='h6' color='primary'>
+							Цена: {product.price} ₽
+						</Typography>
+						<Button
+							variant='contained'
+							color='primary'
+							startIcon={<FaShoppingCart />}
+							onClick={handleAddToCart}
 							fullWidth
+							sx={{ mt: 2 }}
 						>
-							<MenuItem value='#FF6F61'>Красный</MenuItem>
-							<MenuItem value='#6A5ACD'>Синий</MenuItem>
-						</Select>
-					</div>
-
-					<div style={{ marginBottom: '16px' }}>
-						<Typography variant='subtitle1'>Добавить чехол:</Typography>
-						<Select
-							value={selectedCase || ''}
-							onChange={(e) => setSelectedCase(e.target.value as string)}
-							fullWidth
-						>
-							<MenuItem value=''>Без чехла</MenuItem>
-							<MenuItem value='simple'>Простой чехол</MenuItem>
-							<MenuItem value='premium'>Премиум чехол</MenuItem>
-						</Select>
-					</div>
-
-					<div style={{ marginBottom: '16px' }}>
-						<Typography variant='subtitle1'>Количество:</Typography>
-						<TextField
-							type='number'
-							value={quantity}
-							onChange={(e) =>
-								setQuantity(Math.max(1, Number(e.target.value)))
-							}
-							fullWidth
-							inputProps={{ min: 1 }}
-						/>
-					</div>
-
-					<Button
-						onClick={handleAddToCart}
-						variant='contained'
-						color='primary'
-						style={{ width: '100%', padding: '12px 0', fontSize: '16px' }}
-					>
-						Добавить в корзину
-					</Button>
-				</div>
-			</Fade>
-		</Modal>
+							Добавить в корзину
+						</Button>
+					</Grid>
+					{/* Галерея изображений */}
+					<Grid item xs={12}>
+						<Typography variant='subtitle1'>
+							Дополнительные изображения:
+						</Typography>
+						<Grid container spacing={2}>
+							{additionalImages.map((img, index) => (
+								<Grid item xs={4} key={index}>
+									<img
+										src={img}
+										alt={`Доп. изображение ${index + 1}`}
+										style={{
+											width: '100%',
+											borderRadius: 8,
+											boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+										}}
+									/>
+								</Grid>
+							))}
+						</Grid>
+					</Grid>
+				</Grid>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={onClose} color='secondary' variant='outlined'>
+					Закрыть
+				</Button>
+			</DialogActions>
+		</Dialog>
 	)
 }
 

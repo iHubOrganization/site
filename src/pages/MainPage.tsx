@@ -52,71 +52,72 @@ function MainPage() {
 		)
 		.toFixed(2)
 
-	const toggleCartItem = (product: ProductType) => {
-		setCart((prevCart) => {
-			const existingItem = prevCart.find(
-				(item) => item.title === product.title
+const toggleCartItem = (product: ProductType, quantity = 1) => {
+	setCart((prevCart) => {
+		const existingItem = prevCart.find((item) => item.title === product.title)
+		if (existingItem) {
+			return prevCart.map((item) =>
+				item.title === product.title
+					? { ...item, quantity: item.quantity + quantity }
+					: item
 			)
-			if (existingItem) {
-				return prevCart.filter((item) => item.title !== product.title)
-			} else {
-				return [...prevCart, { ...product, quantity: 1 }]
-			}
-		})
-	}
+		}
+		return [...prevCart, { ...product, quantity }]
+	})
+}
 
-	const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0)
+const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0)
 
-	const scrollToOrder = () => {
-		setIsCartOpen(false)
-		setTimeout(() => {
-			document
-				.getElementById('order-section')
-				?.scrollIntoView({ behavior: 'smooth' })
-		}, 300)
-	}
+const scrollToOrder = () => {
+	setIsCartOpen(false)
+	setTimeout(() => {
+		document
+			.getElementById('order-section')
+			?.scrollIntoView({ behavior: 'smooth' })
+	}, 300)
+}
 
-	const clearCart = () => setCart([])
+const clearCart = () => setCart([])
 
-	return (
-		<div className='w-full bg-white min-h-screen px-4 pt-6 md:px-6 lg:px-12'>
-			{totalItems > 0 && (
-				<div className='fixed top-4 right-4 z-50 transition-opacity duration-500 ease-in-out opacity-100'>
-					<CartIcon cart={cart} onClick={() => setIsCartOpen(true)} />
-				</div>
-			)}
-
-			<div className='p-4 md:p-6 lg:p-8'>
-				<ProductList
-					productList={productList}
-					toggleCartItem={toggleCartItem}
-					cart={cart}
-				/>
-				<WhatInTheBox />
-				<div id='order-section'>
-					<Order
-						formData={formData}
-						setFormData={setFormData}
-						cartItems={cart}
-						totalAmount={totalAmount}
-						clearCart={clearCart}
-					/>
-				</div>
+return (
+	<div className='w-full bg-white min-h-screen px-4 pt-6 md:px-6 lg:px-12'>
+		{totalItems > 0 && (
+			<div className='fixed top-4 right-4 z-50 transition-opacity duration-500 ease-in-out opacity-100'>
+				<CartIcon cart={cart} onClick={() => setIsCartOpen(true)} />
 			</div>
-			<Footer />
+		)}
 
-			{isCartOpen && (
-				<Modal blackout onClose={() => setIsCartOpen(false)}>
-					<CartPage
-						cart={cart}
-						clearCart={clearCart}
-						onOrderClick={scrollToOrder}
-						totalAmount={totalAmount}
-					/>
-				</Modal>
-			)}
+		<div className='p-4 md:p-6 lg:p-8'>
+			<ProductList
+				productList={productList}
+				toggleCartItem={toggleCartItem}
+				cart={cart}
+			/>
+			<WhatInTheBox />
+			<div id='order-section'>
+				<Order
+					formData={formData}
+					setFormData={setFormData}
+					cartItems={cart}
+					totalAmount={totalAmount}
+					clearCart={clearCart}
+				/>
+			</div>
 		</div>
-	)
+		<Footer />
+
+		{isCartOpen && (
+			<Modal open={isCartOpen} onClose={() => setIsCartOpen(false)}>
+				<CartPage
+					cart={cart}
+					clearCart={clearCart}
+					onOrderClick={scrollToOrder}
+					totalAmount={totalAmount}
+				/>
+			</Modal>
+		)}
+	</div>
+)
 }
 
 export default MainPage
