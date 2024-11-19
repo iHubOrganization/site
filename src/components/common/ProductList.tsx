@@ -1,43 +1,63 @@
 import React from 'react'
 import Product, { ProductType } from './Product'
+import { Grid, Box, Typography } from '@mui/material'
 import { CartItem } from '../../pages/MainPage'
 
 interface ProductListProps {
 	productList: ProductType[]
-	toggleCartItem: (product: ProductType) => void
+	toggleCartItem: (
+		product: ProductType,
+		quantity: number,
+		color: string,
+		caseType: string | null
+	) => void
 	cart: CartItem[]
+	onProductClick: (product: ProductType) => void
 }
 
 const ProductList: React.FC<ProductListProps> = ({
 	productList,
 	toggleCartItem,
-	cart
+	cart,
+	onProductClick
 }) => {
 	return (
-		<div>
-			<h2 className='text-2xl font-bold text-[#F54F29] text-center mb-6'>
+		<Box
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				flexWrap: 'wrap',
+				gap: 3
+			}}
+		>
+			<Typography variant='h4' color='primary' align='center' gutterBottom>
 				Наши продукты
-			</h2>
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-				{productList.map((product) => {
-					const cartItem = cart.find(
-						(item) => item.title === product.title
-					)
-					const isInCart = Boolean(cartItem)
-					const quantityInCart = cartItem ? cartItem.quantity : 0
+			</Typography>
+			{productList.map((product) => {
+				const cartItem = cart.find((item) => item.title === product.title)
+				const isInCart = Boolean(cartItem)
+				const quantityInCart = cartItem ? cartItem.quantity : 0
 
-					return (
+				return (
+					<Box
+						key={product.title}
+						sx={{
+							width: 'auto',
+							display: 'flex',
+							justifyContent: 'center'
+						}}
+					>
 						<Product
-							key={product.title}
 							product={product}
 							toggleCartItem={toggleCartItem}
 							isInCart={isInCart}
 							quantityInCart={quantityInCart}
+							onClick={() => onProductClick(product)} // Передаем обработчик клика
 						/>
-					)
-				})}
-			</div>
-		</div>
+					</Box>
+				)
+			})}
+		</Box>
 	)
 }
 

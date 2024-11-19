@@ -1,5 +1,6 @@
+// src/components/common/WhatInTheBox.tsx
 import React from 'react'
-
+import { Box, Typography, List, ListItem, Divider } from '@mui/material'
 import chargerIcon from '../../assets/ChargerIcon.png'
 import whatInTheBox from '../../assets/whatInTheBox.png'
 
@@ -12,40 +13,64 @@ const items = [
 
 const WhatInTheBox: React.FC = () => {
 	return (
-		<div className='mt-10 md:mt-20 flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-8 px-4'>
-			<div className='relative w-full max-w-xs md:max-w-[662px] aspect-w-16 aspect-h-9 shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105'>
+		<Box
+			mt={{ xs: 10, md: 20 }}
+			display='flex'
+			flexDirection={{ xs: 'column', md: 'row' }}
+			alignItems='center'
+			justifyContent='center'
+			gap={6} // Заменено с spacing на gap
+			px={4}
+		>
+			<Box
+				position='relative'
+				width={{ xs: '100%', md: '662px' }}
+				sx={{
+					aspectRatio: '16 / 9',
+					boxShadow: 3,
+					borderRadius: 2,
+					overflow: 'hidden',
+					transition: 'transform 0.3s',
+					'&:hover': { transform: 'scale(1.05)' },
+					backgroundColor: '#f5f5f5' // Вернуть цвет фона, если необходимо
+				}}
+			>
 				<img
 					src={whatInTheBox}
 					alt='Комплектация'
-					className='object-contain w-full h-full'
+					style={{ width: '100%', height: '100%', objectFit: 'contain' }}
 				/>
-			</div>
+			</Box>
 
-			<div className='text-center md:text-left'>
-				<h2 className='text-2xl md:text-3xl font-bold text-[#F54F29] mb-4'>
+			<Box textAlign={{ xs: 'center', md: 'left' }} ml={{ md: 4 }}>
+				<Typography variant='h4' color='#F54F29' gutterBottom>
 					Что входит в комплект
-				</h2>
-				<ul className='mt-6 md:mt-12 space-y-4'>
+				</Typography>
+				<List>
 					{items.map((item, index) => (
-						<div key={item.id}>
-							<li className='flex items-center space-x-3'>
-								<img
-									src={item.icon}
-									alt={`${item.label} Icon`}
-									className='w-6 h-6'
-								/>
-								<span className='text-lg md:text-xl font-medium text-gray-800'>
-									{item.label}
-								</span>
-							</li>
-							{index < items.length - 1 && (
-								<hr className='my-2 md:my-5 border-gray-300 w-[292px]' />
-							)}
-						</div>
+						<React.Fragment key={item.id}>
+							<ListItem>
+								<Box display='flex' alignItems='center' width='100%'>
+									<img
+										src={item.icon}
+										alt={`${item.label} Icon`}
+										style={{
+											width: '24px',
+											height: '24px',
+											marginRight: '16px'
+										}}
+									/>
+									<Typography variant='h6' color='textPrimary'>
+										{item.label}
+									</Typography>
+								</Box>
+							</ListItem>
+							{index < items.length - 1 && <Divider />}
+						</React.Fragment>
 					))}
-				</ul>
-			</div>
-		</div>
+				</List>
+			</Box>
+		</Box>
 	)
 }
 

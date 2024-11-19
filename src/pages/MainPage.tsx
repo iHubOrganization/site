@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react'
+// src/pages/MainPage.tsx
+import React, { useState, useEffect } from 'react'
 import ProductList from '../components/common/ProductList'
 import WhatInTheBox from '../components/common/WhatInTheBox'
 import Order from '../components/common/Order'
 import Footer from '../components/common/Footer'
 import CartIcon from '../components/common/CartIcon'
-import Modal from '../components/common/Modal'
+import ProductPopup from '../components/common/ProductPopup'
 import { productList } from '../data/productList'
-import CartPage from './CartPage'
 import { ProductType } from '../components/common/Product'
+import { Box } from '@mui/material'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export interface FormData {
 	name: string
@@ -21,6 +24,8 @@ export interface CartItem {
 	title: string
 	quantity: number
 	price: string
+	color?: string
+	caseType?: string
 }
 
 function MainPage() {
@@ -34,6 +39,9 @@ function MainPage() {
 
 	const [cart, setCart] = useState<CartItem[]>([])
 	const [isCartOpen, setIsCartOpen] = useState(false)
+	const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
+		null
+	)
 
 	useEffect(() => {
 		const savedCart = localStorage.getItem('cart')
@@ -52,72 +60,138 @@ function MainPage() {
 		)
 		.toFixed(2)
 
-const toggleCartItem = (product: ProductType, quantity = 1) => {
-	setCart((prevCart) => {
-		const existingItem = prevCart.find((item) => item.title === product.title)
-		if (existingItem) {
-			return prevCart.map((item) =>
-				item.title === product.title
-					? { ...item, quantity: item.quantity + quantity }
-					: item
+	const toggleCartItem = (
+		product: ProductType,
+		quantity: number,
+		color: string,
+		caseType: string | null
+	) => {
+		setCart((prevCart) => {
+			const existingItem = prevCart.find(
+				(item) =>
+					item.title === product.title &&
+					item.color === color &&
+					item.caseType === caseType
 			)
-		}
-		return [...prevCart, { ...product, quantity }]
-	})
-}
+			if (existingItem) {
+				return prevCart.map((item) =>
+					item.title === product.title &&
+					item.color === color &&
+					item.caseType === caseType
+						? { ...item, quantity: item.quantity + quantity }
+						: item
+				)
+			}
+			return [
+				...prevCart,
+				{
+					title: product.title,
+					quantity,
+					price: product.price,
+					color,
+					caseType
+				}
+			]
+		})
+	}
 
-const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0)
+	const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0)
 
-const scrollToOrder = () => {
-	setIsCartOpen(false)
-	setTimeout(() => {
-		document
-			.getElementById('order-section')
-			?.scrollIntoView({ behavior: 'smooth' })
-	}, 300)
-}
+	const scrollToOrder = () => {
+		setIsCartOpen(false)
+		setTimeout(() => {
+			document
+				.getElementById('order-section')
+				?.scrollIntoView({ behavior: 'smooth' })
+		}, 300)
+	}
 
-const clearCart = () => setCart([])
+	const clearCart = () => setCart([])
 
-return (
-	<div className='w-full bg-white min-h-screen px-4 pt-6 md:px-6 lg:px-12'>
-		{totalItems > 0 && (
-			<div className='fixed top-4 right-4 z-50 transition-opacity duration-500 ease-in-out opacity-100'>
-				<CartIcon cart={cart} onClick={() => setIsCartOpen(true)} />
-			</div>
-		)}
+	const handleProductClick = (product: ProductType) => {
+		setSelectedProduct(product)
+	}
 
-		<div className='p-4 md:p-6 lg:p-8'>
-			<ProductList
-				productList={productList}
-				toggleCartItem={toggleCartItem}
-				cart={cart}
-			/>
-			<WhatInTheBox />
-			<div id='order-section'>
-				<Order
-					formData={formData}
-					setFormData={setFormData}
-					cartItems={cart}
-					totalAmount={totalAmount}
-					clearCart={clearCart}
-				/>
-			</div>
-		</div>
-		<Footer />
+	return (
+		<Box
+			sx={{
+				width: '100%',
+				backgroundColor: 'white',
+				minHeight: '100vh',
+				px: { xs: 2, md: 3, lg: 6 },
+				pt: 3,
+				overflowY: 'auto', // Добавляем кастомный скролл
+				'&::-webkit-scrollbar': {
+					width: '8px'
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: '#888',
+					borderRadius: '4px'
+				}
+			}}
+		>
+			{totalItems > 0 && (
+				<Box
+					sx={{
+						position: 'fixed',
+						top: 16,
+						right: 16,
+						zIndex: 1300, // Высокий z-index для отображения поверх
+						transition: 'opacity 0.5s',
+						opacity: 1
+					}}
+				>
+					<CartIcon cart={cart} onClick={() => setIsCartOpen(true)} />
+				</Box>
+			)}
 
-		{isCartOpen && (
-			<Modal open={isCartOpen} onClose={() => setIsCartOpen(false)}>
-				<CartPage
+			<Box sx={{ p: { xs: 2, md: 3, lg: 4 } }}>
+				<ProductList
+					productList={productList}
+					toggleCartItem={toggleCartItem}
 					cart={cart}
-					clearCart={clearCart}
-					onOrderClick={scrollToOrder}
-					totalAmount={totalAmount}
+					onProductClick={handleProductClick} // Передаём обработчик клика
 				/>
-			</Modal>
-		)}
-	</div>
-)
+				<WhatInTheBox />
+				<Box id='order-section'>
+					<Order
+						formData={formData}
+						setFormData={setFormData}
+						cartItems={cart}
+						totalAmount={totalAmount}
+						clearCart={clearCart}
+					/>
+				</Box>
+			</Box>
+			<Footer />
+
+			{selectedProduct && (
+				<ProductPopup
+					open={Boolean(selectedProduct)}
+					onClose={() => setSelectedProduct(null)}
+					product={selectedProduct}
+					toggleCartItem={toggleCartItem}
+				/>
+			)}
+			<ToastContainer
+				position='top-right'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				style={{
+					width: '100%',
+					maxWidth: '450px',
+					fontSize: '1em',
+					padding: '10px'
+				}}
+			/>
+		</Box>
+	)
 }
 
 export default MainPage

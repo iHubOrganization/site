@@ -1,13 +1,25 @@
-import React, { useState } from 'react'
+// src/components/common/Product.tsx
+import React from 'react'
+import {
+	Card,
+	CardContent,
+	CardMedia,
+	Typography,
+	IconButton,
+	Badge,
+	Box
+} from '@mui/material'
 import { FaShoppingCart, FaStar } from 'react-icons/fa'
-import ProductPopup from './ProductPopup'
 
 export interface ProductType {
 	title: string
 	grade: string
 	img: string
-	color: string
 	price: string
+	colorOptions: string[] // Доступные цвета модели
+	caseOptions: string[] // Доступные чехлы
+	backgroundColor: string // Цвет фона карточки товара
+	additionalImages?: string[] // Дополнительные изображения (опционально)
 }
 
 interface ProductProps {
@@ -20,89 +32,89 @@ interface ProductProps {
 	) => void
 	isInCart: boolean
 	quantityInCart: number
+	onClick: () => void
 }
 
 const Product: React.FC<ProductProps> = ({
 	product,
 	toggleCartItem,
 	isInCart,
-	quantityInCart
+	quantityInCart,
+	onClick
 }) => {
-	const [isPopupOpen, setIsPopupOpen] = useState(false)
-
 	const handleCartIconClick = (event: React.MouseEvent) => {
 		event.stopPropagation()
-		toggleCartItem(product, 1, product.color, null)
+		toggleCartItem(
+			product,
+			1,
+			product.colorOptions[0],
+			product.caseOptions[0]
+		)
 	}
 
-	const handleProductClick = () => setIsPopupOpen(true)
-
 	return (
-		<div
-			className='transition-transform transform scale-100 hover:scale-105 active:scale-95'
-			onClick={handleProductClick}
+		<Card
+			sx={{
+				maxWidth: 300,
+				backgroundColor: 'white',
+				cursor: 'pointer',
+				transition: 'transform 0.3s',
+				'&:hover': { transform: 'scale(1.05)' },
+				margin: 'auto' // Для выравнивания по центру
+			}}
+			onClick={onClick}
 		>
-			<div
-				className='w-full h-[350px] rounded-lg shadow-md p-4 text-center relative transition-transform duration-300 ease-out'
-				style={{
-					background: `radial-gradient(circle, ${product.color}20 0%, ${product.color}80 45%, ${product.color} 100%)`
-				}}
-			>
-				<div className='w-full h-[250px] flex items-center justify-center'>
-					<img
-						src={product.img}
-						alt={product.title}
-						className='object-contain h-full max-h-full scale-125 translate-y-8'
-					/>
-				</div>
-
-				<div
-					className={`absolute top-2 right-2 p-3 bg-white rounded-full border-2 ${
-						isInCart ? 'border-[#F54F29]' : 'border-gray-400'
-					} cursor-pointer shadow-lg transform transition-transform hover:scale-110 active:scale-95 ${
-						isInCart ? 'text-[#F54F29]' : 'text-gray-700'
-					}`}
-					onClick={handleCartIconClick}
-				>
-					<FaShoppingCart size={20} />
-					{isInCart && (
-						<span className='absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold'>
-							{quantityInCart}
-						</span>
-					)}
-				</div>
-			</div>
-
-			<div className='flex justify-between items-center mt-4'>
-				<div className='flex gap-1'>
-					{[...Array(5)].map((_, index) => (
-						<FaStar
-							key={index}
-							className='text-yellow-500 opacity-80 transition-opacity'
-						/>
-					))}
-				</div>
-				<span className='text-base font-semibold text-gray-700'>
-					{product.grade}
-				</span>
-			</div>
-
-			<div className='flex justify-between items-center mt-2'>
-				<p className='text-lg font-medium text-gray-800'>{product.title}</p>
-				<p className='text-lg font-bold text-gray-900'>
-					{product.price} руб.
-				</p>
-			</div>
-
-			{isPopupOpen && (
-				<ProductPopup
-					open={isPopupOpen}
-					onClose={() => setIsPopupOpen(false)}
-					product={product}
-					toggleCartItem={toggleCartItem}
+			<Box sx={{ position: 'relative', height: 250 }}>
+				<CardMedia
+					component='img'
+					image={product.img}
+					alt={product.title}
+					sx={{
+						width: '100%',
+						height: '100%',
+						objectFit: 'contain',
+						background: `radial-gradient(circle, ${product.backgroundColor}20 0%, ${product.backgroundColor}80 45%, ${product.backgroundColor} 100%)`
+					}}
 				/>
-			)}
-		</div>
+				<IconButton
+					aria-label='add to cart'
+					onClick={handleCartIconClick}
+					sx={{
+						position: 'absolute',
+						top: 8,
+						right: 8,
+						backgroundColor: 'white',
+						'&:hover': { backgroundColor: '#f0f0f0' }
+					}}
+				>
+					<Badge badgeContent={quantityInCart} color='secondary'>
+						<FaShoppingCart color={isInCart ? '#F54F29' : 'gray'} />
+					</Badge>
+				</IconButton>
+			</Box>
+			<CardContent>
+				<Box
+					display='flex'
+					alignItems='center'
+					justifyContent='space-between'
+				>
+					<Box display='flex' alignItems='center'>
+						{[...Array(5)].map((_, index) => (
+							<FaStar key={index} color='#FFD700' size={16} />
+						))}
+						<Typography variant='body2' color='textSecondary' ml={1}>
+							{product.grade}
+						</Typography>
+					</Box>
+					<Typography variant='body2' color='textSecondary'>
+						{product.price} руб.
+					</Typography>
+				</Box>
+				<Typography variant='h6' component='div'>
+					{product.title}
+				</Typography>
+			</CardContent>
+		</Card>
 	)
 }
 

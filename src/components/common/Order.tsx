@@ -1,13 +1,13 @@
+// src/components/common/Order.tsx
 import React, { useState, useEffect } from 'react'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Box, Typography } from '@mui/material'
 import { FaTelegramPlane } from 'react-icons/fa'
+import InputMask from 'react-input-mask'
 import { canSendMessage } from '../../helpers/canSendMessage'
 import { sendToTelegram } from '../../helpers/telegramApi'
 import { FormData, CartItem } from '../../pages/MainPage'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import InputMask from 'react-input-mask'
 
 const initialFormData: FormData = {
 	name: '',
@@ -70,7 +70,9 @@ const Order: React.FC<{
 				messageParts.push('\nТовары в корзине:')
 				cartItems.forEach((item) => {
 					messageParts.push(
-						`${item.title} - ${item.quantity} x ${item.price} руб.`
+						`${item.title} - ${item.quantity} x ${item.price} руб. (${
+							item.color || 'Нет цвета'
+						}, ${item.caseType || 'Нет чехла'})`
 					)
 				})
 				messageParts.push(`Итоговая стоимость: ${totalAmount} руб.`)
@@ -95,18 +97,39 @@ const Order: React.FC<{
 	}
 
 	return (
-		<div className='order-form bg-white px-10 py-6 rounded-lg shadow-lg max-w-2xl mx-auto mt-6'>
-			<h2 className='text-3xl font-bold text-[#F54F29] mb-2 text-center'>
+		<Box
+			className='order-form'
+			sx={{
+				backgroundColor: 'white',
+				px: { xs: 2, md: 4 },
+				py: { xs: 3, md: 6 },
+				borderRadius: 2,
+				boxShadow: 3,
+				maxWidth: '600px',
+				mx: 'auto',
+				mt: 6
+			}}
+		>
+			<Typography variant='h4' color='#F54F29' align='center' gutterBottom>
 				Оставить заявку
-			</h2>
-			<div className='form-fields flex flex-col md:flex-row flex-wrap gap-6 justify-center items-center mt-6'>
+			</Typography>
+			<Box
+				component='form'
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: 2,
+					mt: 3
+				}}
+				noValidate
+				autoComplete='off'
+			>
 				<TextField
 					label='Имя'
 					variant='outlined'
 					name='name'
 					value={formData.name}
 					onChange={handleChange}
-					className='w-full md:w-1/3'
 					required
 				/>
 				<InputMask
@@ -119,7 +142,6 @@ const Order: React.FC<{
 							label='Телефон'
 							variant='outlined'
 							name='phone'
-							className='w-full md:w-1/3'
 							required
 						/>
 					)}
@@ -130,7 +152,6 @@ const Order: React.FC<{
 					name='telegram'
 					value={formData.telegram}
 					onChange={handleChange}
-					className='w-full md:w-1/3'
 				/>
 				<TextField
 					label='Введите промо-код'
@@ -138,7 +159,6 @@ const Order: React.FC<{
 					name='promoCode'
 					value={formData.promoCode}
 					onChange={handleChange}
-					className='w-full md:w-1/3'
 				/>
 				<TextField
 					label='Комментарий к заказу'
@@ -148,20 +168,28 @@ const Order: React.FC<{
 					onChange={handleChange}
 					multiline
 					rows={4}
-					className='w-full md:w-2/3'
 				/>
-
 				<Button
 					variant='contained'
 					color='primary'
-					className='submit-button bg-[#F54F29] text-white py-3 px-6 rounded-full shadow-md hover:bg-[#e14524]'
+					startIcon={<FaTelegramPlane />}
 					onClick={handleSubmit}
-					disabled={isSubmitting} // Отключаем кнопку во время отправки
+					disabled={isSubmitting}
+					sx={{
+						backgroundColor: '#F54F29',
+						color: 'white',
+						py: 1.5,
+						borderRadius: '50px',
+						boxShadow: 3,
+						'&:hover': {
+							backgroundColor: '#e14524'
+						}
+					}}
 				>
-					<FaTelegramPlane className='mr-2' /> Оставить заявку
+					Оставить заявку
 				</Button>
-			</div>
-		</div>
+			</Box>
+		</Box>
 	)
 }
 
