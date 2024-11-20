@@ -1,4 +1,3 @@
-// src/components/common/ProductPopup.tsx
 import React, { useState } from 'react'
 import {
 	Dialog,
@@ -15,7 +14,7 @@ import {
 	Box
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { ProductType } from './Product'
+import { ProductType, PropOption } from './Product'
 
 interface ProductPopupProps {
 	open: boolean
@@ -35,11 +34,15 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 	product,
 	toggleCartItem
 }) => {
-	const [selectedColor, setSelectedColor] = useState(product.colorOptions[0])
-	const [selectedCase, setSelectedCase] = useState(product.caseOptions[0])
+	const [selectedColor, setSelectedColor] = useState<PropOption>(
+		product.colorOptions?.[0] || { name: '', color: '' } // Используем пустой объект по умолчанию
+	)
+	const [selectedCase, setSelectedCase] = useState<PropOption>(
+		product.caseOptions?.[0] || { name: '', color: '' } // Используем пустую строку по умолчанию
+	)
 
 	const handleAddToCart = () => {
-		toggleCartItem(product, 1, selectedColor, selectedCase)
+		toggleCartItem(product, 1, selectedColor.name, selectedCase.name)
 	}
 
 	return (
@@ -90,44 +93,116 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 						<Typography variant='body1' gutterBottom>
 							{`Описание товара: ${product.title} - это высококачественное устройство с рейтингом ${product.grade}.`}
 						</Typography>
-						<FormControl fullWidth margin='normal'>
-							<InputLabel>Цвет</InputLabel>
-							<Select
-								value={selectedColor}
-								onChange={(e) => setSelectedColor(e.target.value)}
-								label='Цвет'
-							>
-								{product.colorOptions.map((color, index) => (
-									<MenuItem key={index} value={color}>
+						{product.colorOptions && (
+							<FormControl fullWidth margin='normal'>
+								<InputLabel>Цвет</InputLabel>
+								<Select
+									value={selectedColor.name}
+									onChange={(e) =>
+										setSelectedColor(
+											product.colorOptions?.find(
+												(option) => option.name === e.target.value
+											) || { name: '', color: '' }
+										)
+									}
+									label='Цвет'
+									renderValue={(selected) => (
 										<Box
-											sx={{
-												display: 'inline-block',
-												width: '16px',
-												height: '16px',
-												backgroundColor: color,
-												marginRight: '8px',
-												borderRadius: '50%'
-											}}
-										/>
-										{color}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-						<FormControl fullWidth margin='normal'>
-							<InputLabel>Чехол</InputLabel>
-							<Select
-								value={selectedCase}
-								onChange={(e) => setSelectedCase(e.target.value)}
-								label='Чехол'
-							>
-								{product.caseOptions.map((caseType, index) => (
-									<MenuItem key={index} value={caseType}>
-										{caseType}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+											sx={{ display: 'flex', alignItems: 'center' }}
+										>
+											<Box
+												sx={{
+													width: 16,
+													height: 16,
+													backgroundColor:
+														product.colorOptions?.find(
+															(option) =>
+																option.name === selected
+														)?.color,
+													borderRadius: '50%',
+													marginRight: 1
+												}}
+											/>
+											{selected}
+										</Box>
+									)}
+								>
+									{product.colorOptions.map((colorOption, index) => (
+										<MenuItem key={index} value={colorOption.name}>
+											<Box
+												sx={{
+													display: 'inline-block',
+													width: '16px',
+													height: '16px',
+													backgroundColor: colorOption.color,
+													marginRight: '8px',
+													borderRadius: '50%'
+												}}
+											/>
+											{colorOption.name}
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						)}
+						{product.caseOptions && (
+							<FormControl fullWidth margin='normal'>
+								<InputLabel>Чехол</InputLabel>
+								<Select
+									value={selectedCase.name}
+									onChange={(e) =>
+										setSelectedCase(
+											product.caseOptions?.find(
+												(option) => option.name === e.target.value
+											) || { name: '', color: '' } // Значение по умолчанию
+										)
+									}
+									label='Чехол'
+									renderValue={(selected) => {
+										const selectedOption = product.caseOptions?.find(
+											(option) => option.name === selected
+										)
+										return (
+											<Box
+												sx={{
+													display: 'flex',
+													alignItems: 'center'
+												}}
+											>
+												<Box
+													sx={{
+														width: 16,
+														height: 16,
+														backgroundColor:
+															selectedOption?.color,
+														borderRadius: '50%',
+														marginRight: 1
+													}}
+												/>
+												{selected}
+											</Box>
+										)
+									}}
+								>
+									{product.caseOptions.map((caseOption, index) => (
+										<MenuItem key={index} value={caseOption.name}>
+											<Box
+												sx={{
+													display: 'inline-block',
+													width: '16px',
+													height: '16px',
+													backgroundColor: caseOption.color,
+													marginRight: '8px',
+													borderRadius: '50%'
+												}}
+											/>
+											{caseOption.name}
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						)}
+
 						<Typography variant='h6' color='primary' mt={2}>
 							Цена: {product.price} ₽
 						</Typography>
@@ -141,40 +216,8 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 							Добавить в корзину
 						</Button>
 					</Grid>
-					{product.additionalImages && (
-						<Grid item xs={12}>
-							<Typography variant='subtitle1' gutterBottom>
-								Дополнительные изображения:
-							</Typography>
-							<Grid container spacing={2}>
-								{product.additionalImages.map((img, index) => (
-									<Grid item xs={4} key={index}>
-										<Box
-											sx={{
-												width: '100%',
-												borderRadius: '8px',
-												overflow: 'hidden',
-												boxShadow: 1
-											}}
-										>
-											<img
-												src={img}
-												alt={`Доп. изображение ${index + 1}`}
-												style={{
-													width: '100%',
-													height: 'auto',
-													objectFit: 'cover'
-												}}
-											/>
-										</Box>
-									</Grid>
-								))}
-							</Grid>
-						</Grid>
-					)}
 				</Grid>
 			</DialogContent>
-			{/* Удаляем DialogActions, так как кнопка "Закрыть" уже в заголовке */}
 		</Dialog>
 	)
 }

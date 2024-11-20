@@ -107,7 +107,7 @@ const Order: React.FC<{
 				boxShadow: 3,
 				maxWidth: '600px',
 				mx: 'auto',
-				mt: 6
+				mt: 4
 			}}
 		>
 			<Typography variant='h4' color='primary' align='center' gutterBottom>

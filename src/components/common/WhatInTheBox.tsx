@@ -14,7 +14,7 @@ const items = [
 const WhatInTheBox: React.FC = () => {
 	return (
 		<Box
-			mt={{ xs: 8, md: 12 }}
+			mt={{ xs: 6, md: 8 }}
 			display='flex'
 			flexDirection={{ xs: 'column', md: 'row' }}
 			alignItems='center'

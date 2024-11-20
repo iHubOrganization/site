@@ -45,6 +45,7 @@ function MainPage() {
 	useEffect(() => {
 		const savedCart = localStorage.getItem('cart')
 		if (savedCart) setCart(JSON.parse(savedCart))
+			setCart([])
 	}, [])
 
 	useEffect(() => {

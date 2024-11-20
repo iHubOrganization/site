@@ -1,4 +1,3 @@
-// src/data/productList.ts
 import { ProductType } from '../components/common/Product'
 import max from '../assets/max/pink.png'
 import pro from '../assets/pro/1.png'
@@ -11,9 +10,21 @@ export const productList: ProductType[] = [
 		grade: '4.80',
 		img: max,
 		price: '9990',
-		colorOptions: ['#FF6F61', '#6A5ACD', '#0077B6'],
-		caseOptions: ['Кожаный чехол', 'Силиконовый чехол'],
-		backgroundColor: '#FF6F61', // Цвет фона карточки товара
+		colorOptions: [
+			{ name: 'Розовый', color: '#FE9792' },
+			{ name: 'Серый', color: '#4F4E53' },
+			{ name: 'Синий', color: '#52617C' },
+			{ name: 'Зеленый', color: '#90AA69' },
+			{ name: 'Серебристый', color: '#F2F2F2' }
+		],
+		caseOptions: [
+			{ name: 'Серебристый', color: '#F2F2F2' },
+			{ name: 'Розовый', color: '#FE9792' },
+			{ name: 'Серый', color: '#4F4E53' },
+			{ name: 'Синий', color: '#52617C' },
+			{ name: 'Зеленый', color: '#90AA69' }
+		],
+		backgroundColor: '#FFCC99',
 		additionalImages: [max, max, max]
 	},
 	{
@@ -21,9 +32,12 @@ export const productList: ProductType[] = [
 		grade: '4.90',
 		img: pro,
 		price: '3490',
-		colorOptions: ['#F4A261', '#FF6F61', '#0077B6'],
-		caseOptions: ['Пластиковый кейс', 'Силиконовый кейс'],
-		backgroundColor: '#6A5ACD',
+		caseOptions: [
+			{ name: 'Персиковый', color: '#F4A261' },
+			{ name: 'Коралловый', color: '#FF6F61' },
+			{ name: 'Синий', color: '#0077B6' }
+		],
+		backgroundColor: '#B7A7E9',
 		additionalImages: [pro, pro, pro]
 	},
 	{
@@ -31,9 +45,12 @@ export const productList: ProductType[] = [
 		grade: '4.70',
 		img: pro,
 		price: '1990',
-		colorOptions: ['#F4A261', '#FF6F61', '#6A5ACD'],
-		caseOptions: ['Пластиковый кейс', 'Силиконовый кейс'],
-		backgroundColor: '#F4A261',
+		caseOptions: [
+			{ name: 'Персиковый', color: '#F4A261' },
+			{ name: 'Коралловый', color: '#FF6F61' },
+			{ name: 'Лавандовый', color: '#6A5ACD' }
+		],
+		backgroundColor: '#85C1E9',
 		additionalImages: [pro, pro, pro]
 	},
 	{
@@ -41,9 +58,12 @@ export const productList: ProductType[] = [
 		grade: '4.75',
 		img: pro,
 		price: '2490',
-		colorOptions: ['#0077B6', '#6A5ACD', '#FF6F61'],
-		caseOptions: ['Пластиковый кейс', 'Силиконовый кейс'],
-		backgroundColor: '#0077B6',
+		caseOptions: [
+			{ name: 'Синий', color: '#0077B6' },
+			{ name: 'Лавандовый', color: '#6A5ACD' },
+			{ name: 'Коралловый', color: '#FF6F61' }
+		],
+		backgroundColor: '#FFB84D',
 		additionalImages: [pro, pro, pro]
 	},
 	{
@@ -51,9 +71,12 @@ export const productList: ProductType[] = [
 		grade: '4.85',
 		img: w1,
 		price: '3990',
-		colorOptions: ['#FF8C00', '#2E8B57', '#0077B6'],
-		caseOptions: ['Металлический браслет', 'Силиконовый браслет'],
-		backgroundColor: '#FF8C00',
+		colorOptions: [
+			{ name: 'Оранжевый', color: '#FF8C00' },
+			{ name: 'Зелёный', color: '#2E8B57' },
+			{ name: 'Синий', color: '#0077B6' }
+		],
+		backgroundColor: '#FF9985',
 		additionalImages: [w1, w1, w1]
 	},
 	{
@@ -61,9 +84,12 @@ export const productList: ProductType[] = [
 		grade: '4.95',
 		img: w2,
 		price: '4990',
-		colorOptions: ['#FF8C00', '#2E8B57', '#0077B6'],
-		caseOptions: ['Металлический браслет', 'Кожаный ремешок'],
-		backgroundColor: '#2E8B57',
+		colorOptions: [
+			{ name: 'Оранжевый', color: '#FF8C00' },
+			{ name: 'Зелёный', color: '#2E8B57' },
+			{ name: 'Синий', color: '#0077B6' }
+		],
+		backgroundColor: '#A8D5BA',
 		additionalImages: [w2, w2, w2]
 	}
 ]

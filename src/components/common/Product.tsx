@@ -11,13 +11,17 @@ import {
 } from '@mui/material'
 import { FaShoppingCart, FaStar } from 'react-icons/fa'
 
+export interface PropOption {
+	name: string
+	color: string
+}
 export interface ProductType {
 	title: string
 	grade: string
 	img: string
 	price: string
-	colorOptions: string[]
-	caseOptions: string[]
+	colorOptions?: PropOption[]
+	caseOptions?: PropOption[]
 	backgroundColor: string
 	additionalImages?: string[]
 }
@@ -47,8 +51,8 @@ const Product: React.FC<ProductProps> = ({
 		toggleCartItem(
 			product,
 			1,
-			product.colorOptions[0],
-			product.caseOptions[0]
+			product.colorOptions?.[0]?.name || '', // Проверяем наличие colorOptions
+			product.caseOptions?.[0]?.name || '' // Проверяем наличие caseOptions
 		)
 	}
 
