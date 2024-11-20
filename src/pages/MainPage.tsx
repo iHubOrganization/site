@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ProductList from '../components/common/ProductList'
 import WhatInTheBox from '../components/common/WhatInTheBox'
 import Order from '../components/common/Order'
@@ -45,7 +45,7 @@ function MainPage() {
 	useEffect(() => {
 		const savedCart = localStorage.getItem('cart')
 		if (savedCart) setCart(JSON.parse(savedCart))
-			setCart([])
+		setCart([])
 	}, [])
 
 	useEffect(() => {
