@@ -55,16 +55,16 @@ const Product: React.FC<ProductProps> = ({
 	return (
 		<Card
 			sx={{
-				maxWidth: 300,
+				maxWidth: 350,
 				backgroundColor: 'white',
 				cursor: 'pointer',
 				transition: 'transform 0.3s',
 				'&:hover': { transform: 'scale(1.05)' },
-				margin: 'auto' // Для выравнивания по центру
+				margin: 'auto'
 			}}
 			onClick={onClick}
 		>
-			<Box sx={{ position: 'relative', height: 250 }}>
+			<Box sx={{ position: 'relative', height: 350, width: 350 }}>
 				<CardMedia
 					component='img'
 					image={product.img}

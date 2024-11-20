@@ -1,6 +1,6 @@
 import React from 'react'
 import Product, { ProductType } from './Product'
-import { Grid, Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { CartItem } from '../../pages/MainPage'
 
 interface ProductListProps {
@@ -30,9 +30,6 @@ const ProductList: React.FC<ProductListProps> = ({
 				gap: 3
 			}}
 		>
-			<Typography variant='h4' color='primary' align='center' gutterBottom>
-				Наши продукты
-			</Typography>
 			{productList.map((product) => {
 				const cartItem = cart.find((item) => item.title === product.title)
 				const isInCart = Boolean(cartItem)
@@ -52,7 +49,7 @@ const ProductList: React.FC<ProductListProps> = ({
 							toggleCartItem={toggleCartItem}
 							isInCart={isInCart}
 							quantityInCart={quantityInCart}
-							onClick={() => onProductClick(product)} // Передаем обработчик клика
+							onClick={() => onProductClick(product)}
 						/>
 					</Box>
 				)

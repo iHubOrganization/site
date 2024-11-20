@@ -8,7 +8,7 @@ import CartIcon from '../components/common/CartIcon'
 import ProductPopup from '../components/common/ProductPopup'
 import { productList } from '../data/productList'
 import { ProductType } from '../components/common/Product'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -146,6 +146,14 @@ function MainPage() {
 			)}
 
 			<Box sx={{ p: { xs: 2, md: 3, lg: 4 } }}>
+				<Typography
+					variant='h4'
+					color='primary'
+					align='center'
+					gutterBottom
+				>
+					Наши продукты
+				</Typography>
 				<ProductList
 					productList={productList}
 					toggleCartItem={toggleCartItem}

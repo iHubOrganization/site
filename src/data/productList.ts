@@ -13,12 +13,8 @@ export const productList: ProductType[] = [
 		price: '9990',
 		colorOptions: ['#FF6F61', '#6A5ACD', '#0077B6'],
 		caseOptions: ['Кожаный чехол', 'Силиконовый чехол'],
-		backgroundColor: '#FFEEF0', // Цвет фона карточки товара
-		additionalImages: [
-			'/assets/airpods-max-1.png',
-			'/assets/airpods-max-2.png',
-			'/assets/airpods-max-3.png'
-		]
+		backgroundColor: '#FF6F61', // Цвет фона карточки товара
+		additionalImages: [max, max, max]
 	},
 	{
 		title: 'AirPods Pro',
@@ -27,12 +23,8 @@ export const productList: ProductType[] = [
 		price: '3490',
 		colorOptions: ['#F4A261', '#FF6F61', '#0077B6'],
 		caseOptions: ['Пластиковый кейс', 'Силиконовый кейс'],
-		backgroundColor: '#F0F0FF',
-		additionalImages: [
-			'/assets/airpods-pro-1.png',
-			'/assets/airpods-pro-2.png',
-			'/assets/airpods-pro-3.png'
-		]
+		backgroundColor: '#6A5ACD',
+		additionalImages: [pro, pro, pro]
 	},
 	{
 		title: 'AirPods 2',
@@ -41,12 +33,8 @@ export const productList: ProductType[] = [
 		price: '1990',
 		colorOptions: ['#F4A261', '#FF6F61', '#6A5ACD'],
 		caseOptions: ['Пластиковый кейс', 'Силиконовый кейс'],
-		backgroundColor: '#FFF0F5',
-		additionalImages: [
-			'/assets/airpods-2-1.png',
-			'/assets/airpods-2-2.png',
-			'/assets/airpods-2-3.png'
-		]
+		backgroundColor: '#F4A261',
+		additionalImages: [pro, pro, pro]
 	},
 	{
 		title: 'AirPods 3',
@@ -55,12 +43,8 @@ export const productList: ProductType[] = [
 		price: '2490',
 		colorOptions: ['#0077B6', '#6A5ACD', '#FF6F61'],
 		caseOptions: ['Пластиковый кейс', 'Силиконовый кейс'],
-		backgroundColor: '#E0FFFF',
-		additionalImages: [
-			'/assets/airpods-3-1.png',
-			'/assets/airpods-3-2.png',
-			'/assets/airpods-3-3.png'
-		]
+		backgroundColor: '#0077B6',
+		additionalImages: [pro, pro, pro]
 	},
 	{
 		title: 'Apple Watch Series 9',
@@ -69,12 +53,8 @@ export const productList: ProductType[] = [
 		price: '3990',
 		colorOptions: ['#FF8C00', '#2E8B57', '#0077B6'],
 		caseOptions: ['Металлический браслет', 'Силиконовый браслет'],
-		backgroundColor: '#FFE4B5',
-		additionalImages: [
-			'/assets/watch-series-9-1.png',
-			'/assets/watch-series-9-2.png',
-			'/assets/watch-series-9-3.png'
-		]
+		backgroundColor: '#FF8C00',
+		additionalImages: [w1, w1, w1]
 	},
 	{
 		title: 'Apple Watch Ultra 2',
@@ -83,11 +63,7 @@ export const productList: ProductType[] = [
 		price: '4990',
 		colorOptions: ['#FF8C00', '#2E8B57', '#0077B6'],
 		caseOptions: ['Металлический браслет', 'Кожаный ремешок'],
-		backgroundColor: '#E6E6FA',
-		additionalImages: [
-			'/assets/watch-ultra-2-1.png',
-			'/assets/watch-ultra-2-2.png',
-			'/assets/watch-ultra-2-3.png'
-		]
+		backgroundColor: '#2E8B57',
+		additionalImages: [w2, w2, w2]
 	}
 ]

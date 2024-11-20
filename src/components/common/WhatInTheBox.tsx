@@ -26,7 +26,6 @@ const WhatInTheBox: React.FC = () => {
 				position='relative'
 				width={{ xs: '100%', md: '662px' }}
 				sx={{
-					aspectRatio: '16 / 9',
 					boxShadow: 3,
 					borderRadius: 2,
 					overflow: 'hidden',
