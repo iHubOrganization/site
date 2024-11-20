@@ -1,4 +1,3 @@
-// src/pages/CartPage.tsx
 import React from 'react'
 import { Box, Typography, Button, Divider, Grid } from '@mui/material'
 import { FaTrash } from 'react-icons/fa'
@@ -27,7 +26,8 @@ const CartPage: React.FC<CartPageProps> = ({
 				boxShadow: 2,
 				maxWidth: 400,
 				mx: 'auto',
-				textAlign: 'center'
+				textAlign: 'center',
+				position: 'relative'
 			}}
 		>
 			<Typography variant='h5' color='primary' gutterBottom>
@@ -40,32 +40,56 @@ const CartPage: React.FC<CartPageProps> = ({
 					sx={{
 						maxHeight: 400,
 						overflowY: 'auto',
-						'&::-webkit-scrollbar': {
-							width: '8px'
-						},
-						'&::-webkit-scrollbar-thumb': {
-							backgroundColor: '#888',
-							borderRadius: '4px'
-						}
+						overflowX: 'hidden',
+						paddingRight: '16px'
 					}}
 				>
 					{cart.map((item, index) => (
 						<Box key={index} mb={2}>
 							<Grid container spacing={1} alignItems='center'>
-								<Grid item xs={6}>
-									<Typography variant='body1'>{item.title}</Typography>
+								<Grid item xs={8}>
+									{' '}
+									{/* Увеличиваем до 8 */}
+									<Typography
+										variant='body1'
+										noWrap
+										sx={{
+											textOverflow: 'ellipsis',
+											overflow: 'hidden'
+										}}
+									>
+										{item.title}
+									</Typography>
 									{item.color && (
-										<Typography variant='body2' color='textSecondary'>
+										<Typography
+											variant='body2'
+											color='textSecondary'
+											noWrap
+											sx={{
+												textOverflow: 'ellipsis',
+												overflow: 'hidden'
+											}}
+										>
 											Цвет: {item.color}
 										</Typography>
 									)}
 									{item.caseType && (
-										<Typography variant='body2' color='textSecondary'>
+										<Typography
+											variant='body2'
+											color='textSecondary'
+											noWrap
+											sx={{
+												textOverflow: 'ellipsis',
+												overflow: 'hidden'
+											}}
+										>
 											Чехол: {item.caseType}
 										</Typography>
 									)}
 								</Grid>
-								<Grid item xs={6} textAlign='right'>
+								<Grid item xs={4} textAlign='right'>
+									{' '}
+									{/* Уменьшаем до 4 */}
 									<Typography variant='body1'>
 										{item.quantity} x {item.price} ₽
 									</Typography>
@@ -97,8 +121,13 @@ const CartPage: React.FC<CartPageProps> = ({
 								startIcon={<FaTrash />}
 								fullWidth
 								onClick={clearCart}
+								sx={{
+									color: 'white',
+									py: 1.5,
+									boxShadow: 3
+								}}
 							>
-								Очистить корзину
+								Очистить
 							</Button>
 						</motion.div>
 						<motion.div
@@ -111,6 +140,11 @@ const CartPage: React.FC<CartPageProps> = ({
 								color='primary'
 								fullWidth
 								onClick={onOrderClick}
+								sx={{
+									color: 'white',
+									py: 1.5,
+									boxShadow: 3
+								}}
 							>
 								Заказать
 							</Button>

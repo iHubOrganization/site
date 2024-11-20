@@ -5,21 +5,21 @@ import chargerIcon from '../../assets/ChargerIcon.png'
 import whatInTheBox from '../../assets/whatInTheBox.png'
 
 const items = [
-	{ id: 1, label: 'Зарядное устройство 5А', icon: chargerIcon },
-	{ id: 2, label: 'Дополнительный аккумулятор', icon: chargerIcon },
-	{ id: 3, label: 'Элегантная сумка', icon: chargerIcon },
+	{ id: 1, label: 'Зарядный кабель', icon: chargerIcon },
+	{ id: 2, label: 'Дополнительный чехол', icon: chargerIcon },
+	{ id: 3, label: 'Элегантная коробка', icon: chargerIcon },
 	{ id: 4, label: 'Руководство пользователя', icon: chargerIcon }
 ]
 
 const WhatInTheBox: React.FC = () => {
 	return (
 		<Box
-			mt={{ xs: 10, md: 20 }}
+			mt={{ xs: 8, md: 12 }}
 			display='flex'
 			flexDirection={{ xs: 'column', md: 'row' }}
 			alignItems='center'
 			justifyContent='center'
-			gap={6} // Заменено с spacing на gap
+			gap={6}
 			px={4}
 		>
 			<Box
@@ -31,7 +31,7 @@ const WhatInTheBox: React.FC = () => {
 					overflow: 'hidden',
 					transition: 'transform 0.3s',
 					'&:hover': { transform: 'scale(1.05)' },
-					backgroundColor: '#f5f5f5' // Вернуть цвет фона, если необходимо
+					backgroundColor: '#f5f5f5'
 				}}
 			>
 				<img
@@ -42,7 +42,7 @@ const WhatInTheBox: React.FC = () => {
 			</Box>
 
 			<Box textAlign={{ xs: 'center', md: 'left' }} ml={{ md: 4 }}>
-				<Typography variant='h4' color='#F54F29' gutterBottom>
+				<Typography variant='h4' color='primary' gutterBottom>
 					Что входит в комплект
 				</Typography>
 				<List>

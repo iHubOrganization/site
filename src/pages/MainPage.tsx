@@ -1,4 +1,3 @@
-// src/pages/MainPage.tsx
 import React, { useState, useEffect } from 'react'
 import ProductList from '../components/common/ProductList'
 import WhatInTheBox from '../components/common/WhatInTheBox'
@@ -6,10 +5,10 @@ import Order from '../components/common/Order'
 import Footer from '../components/common/Footer'
 import CartIcon from '../components/common/CartIcon'
 import ProductPopup from '../components/common/ProductPopup'
+import CartPage from './CartPage'
 import { productList } from '../data/productList'
 import { ProductType } from '../components/common/Product'
-import { Box, Typography } from '@mui/material'
-import { ToastContainer } from 'react-toastify'
+import { Box, Typography, Modal } from '@mui/material'
 import 'react-toastify/dist/ReactToastify.css'
 
 export interface FormData {
@@ -25,7 +24,7 @@ export interface CartItem {
 	quantity: number
 	price: string
 	color?: string
-	caseType?: string
+	caseType?: string | null // Добавляем поддержку null
 }
 
 function MainPage() {
@@ -120,7 +119,8 @@ function MainPage() {
 				minHeight: '100vh',
 				px: { xs: 2, md: 3, lg: 6 },
 				pt: 3,
-				overflowY: 'auto', // Добавляем кастомный скролл
+				overflowY: 'auto',
+				overflowX: 'hidden',
 				'&::-webkit-scrollbar': {
 					width: '8px'
 				},
@@ -136,7 +136,7 @@ function MainPage() {
 						position: 'fixed',
 						top: 16,
 						right: 16,
-						zIndex: 1300, // Высокий z-index для отображения поверх
+						zIndex: 1300,
 						transition: 'opacity 0.5s',
 						opacity: 1
 					}}
@@ -151,6 +151,7 @@ function MainPage() {
 					color='primary'
 					align='center'
 					gutterBottom
+					sx={{ marginBottom: 4 }}
 				>
 					Наши продукты
 				</Typography>
@@ -158,7 +159,7 @@ function MainPage() {
 					productList={productList}
 					toggleCartItem={toggleCartItem}
 					cart={cart}
-					onProductClick={handleProductClick} // Передаём обработчик клика
+					onProductClick={handleProductClick}
 				/>
 				<WhatInTheBox />
 				<Box id='order-section'>
@@ -173,6 +174,26 @@ function MainPage() {
 			</Box>
 			<Footer />
 
+			<Modal open={isCartOpen} onClose={() => setIsCartOpen(false)}>
+				<Box
+					sx={{
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+						width: '90%',
+						maxWidth: 500
+					}}
+				>
+					<CartPage
+						cart={cart}
+						clearCart={clearCart}
+						onOrderClick={scrollToOrder}
+						totalAmount={totalAmount}
+					/>
+				</Box>
+			</Modal>
+
 			{selectedProduct && (
 				<ProductPopup
 					open={Boolean(selectedProduct)}
@@ -181,23 +202,6 @@ function MainPage() {
 					toggleCartItem={toggleCartItem}
 				/>
 			)}
-			<ToastContainer
-				position='top-right'
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				style={{
-					width: '100%',
-					maxWidth: '450px',
-					fontSize: '1em',
-					padding: '10px'
-				}}
-			/>
 		</Box>
 	)
 }

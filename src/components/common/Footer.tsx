@@ -8,10 +8,14 @@ const Footer: React.FC = () => {
 		<Box
 			component='footer'
 			sx={{
-				backgroundColor: '#F54F29',
+				width: '100vw',
+				backgroundColor: '#0077B6',
 				p: 4,
 				color: 'white',
-				textAlign: 'center'
+				textAlign: 'center',
+				position: 'relative',
+				left: '50%',
+				transform: 'translateX(-50%)'
 			}}
 		>
 			<Box display='flex' justifyContent='center' gap={3} mb={2}>

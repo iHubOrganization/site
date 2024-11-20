@@ -16,10 +16,10 @@ export interface ProductType {
 	grade: string
 	img: string
 	price: string
-	colorOptions: string[] // Доступные цвета модели
-	caseOptions: string[] // Доступные чехлы
-	backgroundColor: string // Цвет фона карточки товара
-	additionalImages?: string[] // Дополнительные изображения (опционально)
+	colorOptions: string[]
+	caseOptions: string[]
+	backgroundColor: string
+	additionalImages?: string[]
 }
 
 interface ProductProps {
@@ -73,7 +73,7 @@ const Product: React.FC<ProductProps> = ({
 						width: '100%',
 						height: '100%',
 						objectFit: 'contain',
-						background: `radial-gradient(circle, ${product.backgroundColor}20 0%, ${product.backgroundColor}80 45%, ${product.backgroundColor} 100%)`
+						background: product.backgroundColor
 					}}
 				/>
 				<IconButton
@@ -87,7 +87,21 @@ const Product: React.FC<ProductProps> = ({
 						'&:hover': { backgroundColor: '#f0f0f0' }
 					}}
 				>
-					<Badge badgeContent={quantityInCart} color='secondary'>
+					<Badge
+						badgeContent={quantityInCart}
+						color='secondary'
+						sx={{
+							'& .MuiBadge-badge': {
+								top: '-5px',
+								right: '-5px',
+								fontSize: '0.75rem',
+								minWidth: '20px',
+								height: '20px',
+								color: 'white',
+								backgroundColor: '#F54F29'
+							}
+						}}
+					>
 						<FaShoppingCart color={isInCart ? '#F54F29' : 'gray'} />
 					</Badge>
 				</IconButton>
@@ -100,7 +114,7 @@ const Product: React.FC<ProductProps> = ({
 				>
 					<Box display='flex' alignItems='center'>
 						{[...Array(5)].map((_, index) => (
-							<FaStar key={index} color='#FFD700' size={16} />
+							<FaStar key={index} color='#FFD700' size={18} />
 						))}
 						<Typography variant='body2' color='textSecondary' ml={1}>
 							{product.grade}

@@ -26,7 +26,22 @@ const CartIcon: React.FC<CartIconProps> = ({ cart, onClick }) => {
 				}
 			}}
 		>
-			<Badge badgeContent={totalItems} color='secondary'>
+			<Badge
+				badgeContent={totalItems}
+				color='secondary'
+				sx={{
+					'& .MuiBadge-badge': {
+						top: '-10px',
+						right: '-10px',
+						fontSize: '1.00rem',
+						minWidth: '20px',
+						height: '26px',
+						border: '3px solid white',
+						backgroundColor: '#F54F29',
+						color: 'white'
+					}
+				}}
+			>
 				<FaShoppingCart size={24} />
 			</Badge>
 		</IconButton>

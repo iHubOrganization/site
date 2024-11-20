@@ -1,8 +1,8 @@
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Layout from "./app/Layout.tsx";
-import "./index.css";
-import MainPage from "./pages/MainPage.tsx";
+import Layout from './app/Layout'
+import './index.css'
+import MainPage from './pages/MainPage'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 const theme = createTheme({
 	palette: {
 		primary: { main: '#0077B6' },
-		secondary: { main: '#FF6F61' }
+		secondary: { main: '#e04929' }
 	},
 	typography: {
 		fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'

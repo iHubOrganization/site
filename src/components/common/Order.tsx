@@ -110,7 +110,7 @@ const Order: React.FC<{
 				mt: 6
 			}}
 		>
-			<Typography variant='h4' color='#F54F29' align='center' gutterBottom>
+			<Typography variant='h4' color='primary' align='center' gutterBottom>
 				Оставить заявку
 			</Typography>
 			<Box
@@ -176,14 +176,9 @@ const Order: React.FC<{
 					onClick={handleSubmit}
 					disabled={isSubmitting}
 					sx={{
-						backgroundColor: '#F54F29',
 						color: 'white',
 						py: 1.5,
-						borderRadius: '50px',
-						boxShadow: 3,
-						'&:hover': {
-							backgroundColor: '#e14524'
-						}
+						boxShadow: 3
 					}}
 				>
 					Оставить заявку
