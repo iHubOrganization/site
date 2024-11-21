@@ -1,35 +1,60 @@
 import React from 'react'
 import Product, { ProductType } from './Product'
+import { Box } from '@mui/material'
+import { CartItem } from '../../pages/MainPage'
 
-interface ProductListType {
+interface ProductListProps {
 	productList: ProductType[]
+	toggleCartItem: (
+		product: ProductType,
+		quantity: number,
+		color: string,
+		caseType: string | null
+	) => void
+	cart: CartItem[]
+	onProductClick: (product: ProductType) => void
 }
 
-const ProductList: React.FC<ProductListType> = ({ productList }) => {
+const ProductList: React.FC<ProductListProps> = ({
+	productList,
+	toggleCartItem,
+	cart,
+	onProductClick
+}) => {
 	return (
-		<div className='mx-auto'>
-			<h2 className='text-[34px] md:text-[38px] xl:text-[44px] text-[#180202] font-bold text-center'>
-				Our Latest Product
-			</h2>
-			<p className='text-center text-[#180202] mt-[10px] md:mt-[20px] xl:mt-[25px] text-base max-w-[460px] md:max-w-[560px] mx-auto'>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-				facilisis nunc ipsum aliquam, ante.
-			</p>
-			<div className='flex justify-center items-center mt-[64px] md:mt-[78px] xl:mt-[91px]'>
-				<div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-16'>
-					{productList.map((product, index) => (
+		<Box
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				flexWrap: 'wrap',
+				gap: 3
+			}}
+		>
+			{productList.map((product) => {
+				const cartItem = cart.find((item) => item.title === product.title)
+				const isInCart = Boolean(cartItem)
+				const quantityInCart = cartItem ? cartItem.quantity : 0
+
+				return (
+					<Box
+						key={product.title}
+						sx={{
+							width: 'auto',
+							display: 'flex',
+							justifyContent: 'center'
+						}}
+					>
 						<Product
-							key={product.title + index}
-							title={product.title}
-							grade={product.grade}
-							img={product.img}
-							color={product.color}
-							price={product.price}
+							product={product}
+							toggleCartItem={toggleCartItem}
+							isInCart={isInCart}
+							quantityInCart={quantityInCart}
+							onClick={() => onProductClick(product)}
 						/>
-					))}
-				</div>
-			</div>
-		</div>
+					</Box>
+				)
+			})}
+		</Box>
 	)
 }
 

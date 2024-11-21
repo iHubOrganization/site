@@ -1,12 +1,13 @@
+// src/components/common/Order.tsx
 import React, { useState, useEffect } from 'react'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Box, Typography } from '@mui/material'
 import { FaTelegramPlane } from 'react-icons/fa'
+import InputMask from 'react-input-mask'
 import { canSendMessage } from '../../helpers/canSendMessage'
 import { sendToTelegram } from '../../helpers/telegramApi'
-import { FormData } from '../../pages/MainPage'
+import { FormData, CartItem } from '../../pages/MainPage'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 const initialFormData: FormData = {
 	name: '',
@@ -19,8 +20,12 @@ const initialFormData: FormData = {
 const Order: React.FC<{
 	formData: FormData
 	setFormData: React.Dispatch<React.SetStateAction<FormData>>
-}> = ({ formData, setFormData }) => {
+	cartItems: CartItem[]
+	totalAmount: string
+	clearCart: () => void
+}> = ({ formData, setFormData, cartItems, totalAmount, clearCart }) => {
 	const [city, setCity] = useState<string | null>(null)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	useEffect(() => {
 		const fetchCity = async () => {
@@ -34,16 +39,18 @@ const Order: React.FC<{
 		fetchCity()
 	}, [])
 
-	console.log(city)
-
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setFormData((prev) => ({ ...prev, [name]: value }))
 	}
 
 	const handleSubmit = async () => {
+		if (isSubmitting) return
+		setIsSubmitting(true)
+
 		if (!formData.name || !formData.phone) {
 			toast.error('Пожалуйста, заполните обязательные поля: Имя и Телефон')
+			setIsSubmitting(false)
 			return
 		}
 
@@ -59,6 +66,17 @@ const Order: React.FC<{
 			if (formData.comment)
 				messageParts.push(`Комментарий: ${formData.comment}`)
 			if (city) messageParts.push(`Город: ${city}`)
+			if (cartItems.length > 0) {
+				messageParts.push('\nТовары в корзине:')
+				cartItems.forEach((item) => {
+					messageParts.push(
+						`${item.title} - ${item.quantity} x ${item.price} руб. (${
+							item.color || 'Нет цвета'
+						}, ${item.caseType || 'Нет чехла'})`
+					)
+				})
+				messageParts.push(`Итоговая стоимость: ${totalAmount} руб.`)
+			}
 
 			const message = messageParts.join('\n')
 
@@ -66,6 +84,7 @@ const Order: React.FC<{
 				await sendToTelegram(message)
 				toast.success('Заявка успешно отправлена!')
 				setFormData(initialFormData)
+				clearCart() // Очищаем корзину после успешной отправки
 			} catch (error) {
 				toast.error('Ошибка при отправке заявки. Попробуйте еще раз позже.')
 				console.error('Error sending message:', error)
@@ -73,39 +92,66 @@ const Order: React.FC<{
 		} else {
 			toast.warn('Пожалуйста, подождите минуту перед повторной отправкой.')
 		}
+
+		setIsSubmitting(false)
 	}
 
 	return (
-		<div className='order-form bg-white px-10 py-6 rounded-lg shadow-lg max-w-2xl mx-auto mt-10'>
-			<h2 className='text-3xl font-bold text-gray-800 mb-2 text-center'>
+		<Box
+			className='order-form'
+			sx={{
+				backgroundColor: 'white',
+				px: { xs: 2, md: 4 },
+				py: { xs: 3, md: 6 },
+				borderRadius: 2,
+				boxShadow: 3,
+				maxWidth: '600px',
+				mx: 'auto',
+				mt: 4
+			}}
+		>
+			<Typography variant='h4' color='primary' align='center' gutterBottom>
 				Оставить заявку
-			</h2>
-			<div className='form-fields flex flex-col md:flex-row flex-wrap gap-6 justify-center items-center'>
+			</Typography>
+			<Box
+				component='form'
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: 2,
+					mt: 3
+				}}
+				noValidate
+				autoComplete='off'
+			>
 				<TextField
 					label='Имя'
 					variant='outlined'
 					name='name'
 					value={formData.name}
 					onChange={handleChange}
-					className='w-full md:w-1/3'
 					required
 				/>
-				<TextField
-					label='Телефон'
-					variant='outlined'
-					name='phone'
+				<InputMask
+					mask='+7 (999) 999-99-99'
 					value={formData.phone}
 					onChange={handleChange}
-					className='w-full md:w-1/3'
-					required
-				/>
+				>
+					{() => (
+						<TextField
+							label='Телефон'
+							variant='outlined'
+							name='phone'
+							required
+						/>
+					)}
+				</InputMask>
 				<TextField
 					label='Telegram'
 					variant='outlined'
 					name='telegram'
 					value={formData.telegram}
 					onChange={handleChange}
-					className='w-full md:w-1/3'
 				/>
 				<TextField
 					label='Введите промо-код'
@@ -113,7 +159,6 @@ const Order: React.FC<{
 					name='promoCode'
 					value={formData.promoCode}
 					onChange={handleChange}
-					className='w-full md:w-1/3'
 				/>
 				<TextField
 					label='Комментарий к заказу'
@@ -123,18 +168,23 @@ const Order: React.FC<{
 					onChange={handleChange}
 					multiline
 					rows={4}
-					className='w-full md:w-2/3'
 				/>
 				<Button
 					variant='contained'
 					color='primary'
-					className='submit-button bg-[#F54F29] text-white py-3 px-6 rounded-full shadow-md hover:bg-[#e14524]'
+					startIcon={<FaTelegramPlane />}
 					onClick={handleSubmit}
+					disabled={isSubmitting}
+					sx={{
+						color: 'white',
+						py: 1.5,
+						boxShadow: 3
+					}}
 				>
-					<FaTelegramPlane className='mr-2' /> Оставить заявку
+					Оставить заявку
 				</Button>
-			</div>
-		</div>
+			</Box>
+		</Box>
 	)
 }
 

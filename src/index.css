@@ -4,6 +4,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
 
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden; /* Убираем горизонтальный скролл */
+}
+
 body {
 	margin: 0;
 	place-items: center;
@@ -22,6 +28,43 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.slick-list {
-	padding: 30px !important;
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
+
+.animate-fadeIn {
+	animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeInOut {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+.animate-fadeInOut {
+	animation: fadeInOut 0.5s ease-in-out;
+}
+
+/* Пример адаптивных стилей */
+@media (max-width: 768px) {
+	.product-popup {
+		max-height: 90vh;
+		overflow-y: auto;
+	}
+}
+
+
+
