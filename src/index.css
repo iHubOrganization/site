@@ -21,3 +21,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+.slick-list {
+	padding: 30px !important;
+}
