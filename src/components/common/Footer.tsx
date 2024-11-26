@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
 		>
 			<Box display='flex' justifyContent='center' gap={3} mb={2}>
 				<IconButton
-					href='https://www.instagram.com'
+					href='https://www.instagram.com/i_hub_76/profilecard/?igsh=MTc4ajgxdzc4M2k1dw=='
 					target='_blank'
 					rel='noopener noreferrer'
 					aria-label='Instagram'
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
 					<FaInstagram size={32} />
 				</IconButton>
 				<IconButton
-					href='https://t.me'
+					href='https://t.me/i_iiHub'
 					target='_blank'
 					rel='noopener noreferrer'
 					aria-label='Telegram'

@@ -25,7 +25,7 @@ export const productList: ProductType[] = [
 			{ name: 'Зеленый', color: '#90AA69' }
 		],
 		backgroundColor: '#FFCC99',
-		additionalImages: [max, max, max]
+		additionalImages: [w2, pro, w1]
 	},
 	{
 		title: 'AirPods Pro',

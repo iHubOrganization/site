@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { ProductType, PropOption } from './Product'
+import { FaStar } from 'react-icons/fa'
 
 interface ProductPopupProps {
 	open: boolean
@@ -35,11 +36,12 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 	toggleCartItem
 }) => {
 	const [selectedColor, setSelectedColor] = useState<PropOption>(
-		product.colorOptions?.[0] || { name: '', color: '' } // Используем пустой объект по умолчанию
+		product.colorOptions?.[0] || { name: '', color: '' }
 	)
 	const [selectedCase, setSelectedCase] = useState<PropOption>(
-		product.caseOptions?.[0] || { name: '', color: '' } // Используем пустую строку по умолчанию
+		product.caseOptions?.[0] || { name: '', color: '' }
 	)
+	const [mainImage, setMainImage] = useState<string>(product.img)
 
 	const handleAddToCart = () => {
 		toggleCartItem(product, 1, selectedColor.name, selectedCase.name)
@@ -74,25 +76,75 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 							sx={{
 								width: '100%',
 								borderRadius: '8px',
-								overflow: 'hidden',
+								marginBottom: 2,
 								backgroundColor: product.backgroundColor
 							}}
 						>
 							<img
-								src={product.img}
+								src={mainImage}
 								alt={product.title}
 								style={{
 									width: '100%',
 									height: 'auto',
-									objectFit: 'cover'
+									objectFit: 'cover',
+									borderRadius: '8px'
 								}}
 							/>
 						</Box>
+						<Box sx={{ display: 'flex', gap: 1 }}>
+							{product.additionalImages?.map((image, index) => (
+								<Box
+									key={index}
+									sx={{
+										border:
+											mainImage === image
+												? '2px solid #1976d2'
+												: '1px solid #ccc',
+										borderRadius: '4px',
+										cursor: 'pointer',
+										width: 60,
+										height: 60,
+										display: 'flex',
+										alignItems: 'center',
+										backgroundColor: '#f9f9f9'
+									}}
+									onClick={() => setMainImage(image)}
+								>
+									<img
+										src={image}
+										style={{
+											width: '100%',
+											height: '100%',
+											objectFit: 'cover',
+											borderRadius: '4px'
+										}}
+										title='Нажмите, чтобы увеличить'
+										role='button'
+									/>
+								</Box>
+							))}
+						</Box>
 					</Grid>
+
 					<Grid item xs={12} md={6}>
-						<Typography variant='body1' gutterBottom>
-							{`Описание товара: ${product.title} - это высококачественное устройство с рейтингом ${product.grade}.`}
-						</Typography>
+						<Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+							<Typography variant='body1' sx={{ mr: 1 }}>
+								Рейтинг:
+							</Typography>
+							<Box display='flex' alignItems='center'>
+								{[...Array(5)].map((_, index) => (
+									<FaStar key={index} color='#FFD700' size={18} />
+								))}
+								<Typography
+									variant='body2'
+									color='textSecondary'
+									ml={1}
+								>
+									{product.grade}
+								</Typography>
+							</Box>
+						</Box>
+
 						{product.colorOptions && (
 							<FormControl fullWidth margin='normal'>
 								<InputLabel>Цвет</InputLabel>
@@ -106,26 +158,6 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 										)
 									}
 									label='Цвет'
-									renderValue={(selected) => (
-										<Box
-											sx={{ display: 'flex', alignItems: 'center' }}
-										>
-											<Box
-												sx={{
-													width: 16,
-													height: 16,
-													backgroundColor:
-														product.colorOptions?.find(
-															(option) =>
-																option.name === selected
-														)?.color,
-													borderRadius: '50%',
-													marginRight: 1
-												}}
-											/>
-											{selected}
-										</Box>
-									)}
 								>
 									{product.colorOptions.map((colorOption, index) => (
 										<MenuItem key={index} value={colorOption.name}>
@@ -145,6 +177,7 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 								</Select>
 							</FormControl>
 						)}
+
 						{product.caseOptions && (
 							<FormControl fullWidth margin='normal'>
 								<InputLabel>Чехол</InputLabel>
@@ -154,35 +187,10 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 										setSelectedCase(
 											product.caseOptions?.find(
 												(option) => option.name === e.target.value
-											) || { name: '', color: '' } // Значение по умолчанию
+											) || { name: '', color: '' }
 										)
 									}
 									label='Чехол'
-									renderValue={(selected) => {
-										const selectedOption = product.caseOptions?.find(
-											(option) => option.name === selected
-										)
-										return (
-											<Box
-												sx={{
-													display: 'flex',
-													alignItems: 'center'
-												}}
-											>
-												<Box
-													sx={{
-														width: 16,
-														height: 16,
-														backgroundColor:
-															selectedOption?.color,
-														borderRadius: '50%',
-														marginRight: 1
-													}}
-												/>
-												{selected}
-											</Box>
-										)
-									}}
 								>
 									{product.caseOptions.map((caseOption, index) => (
 										<MenuItem key={index} value={caseOption.name}>
@@ -215,6 +223,35 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 						>
 							Добавить в корзину
 						</Button>
+
+						<Box
+							sx={{
+								mt: 3,
+								p: 2,
+								borderRadius: 2,
+								borderColor: 'grey.300',
+								borderStyle: 'solid',
+								borderWidth: '1px'
+							}}
+						>
+							<Typography variant='h6'>Отзывы о товаре</Typography>
+
+							<Typography variant='body2' mt={1}>
+								Если у вас есть отзыв о данном товаре, вы можете
+								оставить его по следующей ссылке:
+							</Typography>
+
+							<Button
+								variant='outlined'
+								color='secondary'
+								onClick={() =>
+									window.open('https://t.me/i_iiHub', '_blank')
+								}
+								sx={{ mt: 1 }}
+							>
+								Написать отзыв в Telegram
+							</Button>
+						</Box>
 					</Grid>
 				</Grid>
 			</DialogContent>
