@@ -30,7 +30,7 @@ const CartPage: React.FC<CartPageProps> = ({
 				position: 'relative'
 			}}
 		>
-			<Typography variant='h5' color='primary' gutterBottom>
+			<Typography variant='h5' color='primary' gutterBottom mb={0}>
 				Корзина
 			</Typography>
 			{cart.length === 0 ? (
@@ -44,8 +44,9 @@ const CartPage: React.FC<CartPageProps> = ({
 						paddingRight: '16px'
 					}}
 				>
+					<Divider sx={{ my: 2 }} />
 					{cart.map((item, index) => (
-						<Box key={index} mb={2}>
+						<Box key={index}>
 							<Grid container spacing={1} alignItems='center'>
 								<Grid item xs={8}>
 									{' '}

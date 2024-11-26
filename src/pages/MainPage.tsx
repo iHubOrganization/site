@@ -132,7 +132,30 @@ function MainPage() {
 		setSelectedProduct(product)
 	}
 
-	const handleEnterShop = () => {}
+	const scrollToMain = () => {
+		document
+			.getElementById('main-content')
+			?.scrollIntoView({ behavior: 'smooth' })
+	}
+
+	// Disable scrolling when a modal is open
+	useEffect(() => {
+		if (isCartOpen || selectedProduct) {
+			// Disable scroll on both body and html
+			document.body.style.overflow = 'hidden'
+			document.documentElement.style.overflow = 'hidden'
+		} else {
+			// Restore scroll
+			document.body.style.overflow = 'auto'
+			document.documentElement.style.overflow = 'auto'
+		}
+
+		// Clean up on component unmount or state change
+		return () => {
+			document.body.style.overflow = 'auto'
+			document.documentElement.style.overflow = 'auto'
+		}
+	}, [isCartOpen, selectedProduct])
 
 	return (
 		<ScrollContainer>
@@ -145,7 +168,7 @@ function MainPage() {
 					zIndex: 1400
 				}}
 			>
-				<WelcomeScreen onEnter={handleEnterShop} />
+				<WelcomeScreen onEnter={scrollToMain} />
 			</Box>
 
 			<Box id='main-content'>
@@ -165,7 +188,7 @@ function MainPage() {
 				)}
 				<Box
 					sx={{
-						mt: { xs: 5, md: 8 }
+						pt: { xs: 5, md: 8 }
 					}}
 				>
 					<Typography

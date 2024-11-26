@@ -84,8 +84,8 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 								src={mainImage}
 								alt={product.title}
 								style={{
-									width: '100%',
-									height: 'auto',
+									width: '414px',
+									height: '414px',
 									objectFit: 'cover',
 									borderRadius: '8px'
 								}}
@@ -123,28 +123,41 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 									/>
 								</Box>
 							))}
+							{/* Добавляем основное изображение в конец списка */}
+							<Box
+								key='main-image'
+								sx={{
+									border:
+										mainImage === product.img
+											? '2px solid #1976d2'
+											: '1px solid #ccc',
+									borderRadius: '4px',
+									cursor: 'pointer',
+									width: 60,
+									height: 60,
+									display: 'flex',
+									alignItems: 'center',
+									backgroundColor: '#f9f9f9'
+								}}
+								onClick={() => setMainImage(product.img)}
+							>
+								<img
+									src={product.img}
+									style={{
+										width: '100%',
+										height: '100%',
+										objectFit: 'cover',
+										borderRadius: '4px'
+									}}
+									title='Нажмите, чтобы увеличить'
+									role='button'
+								/>
+							</Box>
 						</Box>
 					</Grid>
 
 					<Grid item xs={12} md={6}>
-						<Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-							<Typography variant='body1' sx={{ mr: 1 }}>
-								Рейтинг:
-							</Typography>
-							<Box display='flex' alignItems='center'>
-								{[...Array(5)].map((_, index) => (
-									<FaStar key={index} color='#FFD700' size={18} />
-								))}
-								<Typography
-									variant='body2'
-									color='textSecondary'
-									ml={1}
-								>
-									{product.grade}
-								</Typography>
-							</Box>
-						</Box>
-
+						{/* Выбор цвета и чехла */}
 						{product.colorOptions && (
 							<FormControl fullWidth margin='normal'>
 								<InputLabel>Цвет</InputLabel>
@@ -210,20 +223,66 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 								</Select>
 							</FormControl>
 						)}
-
-						<Typography variant='h6' color='primary' mt={2}>
-							Цена: {product.price} ₽
-						</Typography>
-						<Button
-							variant='contained'
-							color='primary'
-							onClick={handleAddToCart}
-							fullWidth
-							sx={{ mt: 2 }}
+						<Box
+							display='flex'
+							sx={{
+								gap: 0.5,
+								justifyContent: 'space-around',
+								alignItems: 'center',
+								marginBottom: 1,
+								mt: 2
+							}}
 						>
-							Добавить в корзину
-						</Button>
+							<Box>
+								<Typography variant='h6' color='primary'>
+									Цена: {product.price} ₽
+								</Typography>
+								<Button
+									variant='contained'
+									color='primary'
+									onClick={handleAddToCart}
+									fullWidth
+									sx={{ mt: 2 }}
+								>
+									Добавить в корзину
+								</Button>
+							</Box>
+							<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+								<Typography
+									variant='body1'
+									sx={{ mb: 1, fontWeight: 'bold' }}
+								>
+									Рейтинг товара:
+								</Typography>
+								<Box
+									display='flex'
+									alignItems='center'
+									sx={{
+										gap: 0.5,
+										justifyContent: 'flex-start',
+										marginBottom: 1
+									}}
+								>
+									{[...Array(5)].map((_, index) => (
+										<FaStar
+											key={index}
+											color='#FFD700'
+											size={20}
+											style={{
+												marginRight: '4px',
+												transition: 'all 0.3s'
+											}}
+										/>
+									))}
+								</Box>
+								{/* Добавим возможность видеть среднюю оценку */}
+								<Typography variant='body2' sx={{ color: '#1976d2' }}>
+									Средняя оценка: {product.grade}
+								</Typography>
+							</Box>
+						</Box>
 
+						{/* Отзывы */}
 						<Box
 							sx={{
 								mt: 3,
