@@ -224,9 +224,9 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 							</FormControl>
 						)}
 						<Box
-							display='flex'
+							display={{ xs: 'block', md: 'flex' }}
 							sx={{
-								gap: 0.5,
+								gap: 1,
 								justifyContent: 'space-around',
 								alignItems: 'center',
 								marginBottom: 1,
@@ -247,7 +247,12 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 									Добавить в корзину
 								</Button>
 							</Box>
-							<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+							<Box
+								sx={{
+									display: { xs: 'none', md: 'flex' },
+									flexDirection: 'column'
+								}}
+							>
 								<Typography
 									variant='body1'
 									sx={{ mb: 1, fontWeight: 'bold' }}
