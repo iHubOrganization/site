@@ -1,4 +1,3 @@
-// src/components/common/WhatInTheBox.tsx
 import React from 'react'
 import { Box, Typography, List, ListItem, Divider } from '@mui/material'
 import chargerIcon from '../../assets/ChargerIcon.png'
@@ -14,17 +13,17 @@ const items = [
 const WhatInTheBox: React.FC = () => {
 	return (
 		<Box
-			mt={{ xs: 6, md: 8 }}
+			mt={{ xs: 5, md: 8 }}
 			display='flex'
 			flexDirection={{ xs: 'column', md: 'row' }}
 			alignItems='center'
 			justifyContent='center'
-			gap={6}
-			px={4}
+			gap={{ xs: 4, lg: 6 }} // Увеличиваем gap для больших экранов
+			px={{ xs: 2, sm: 4, md: 6, lg: 8 }} // Адаптивные отступы по бокам
 		>
 			<Box
 				position='relative'
-				width={{ xs: '100%', md: '662px' }}
+				width={{ xs: 300, lg: 500 }} // Устанавливаем фиксированную ширину картинки
 				sx={{
 					boxShadow: 3,
 					borderRadius: 2,
@@ -37,29 +36,57 @@ const WhatInTheBox: React.FC = () => {
 				<img
 					src={whatInTheBox}
 					alt='Комплектация'
-					style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+					style={{
+						width: '100%',
+						height: '100%',
+						objectFit: 'contain'
+					}}
 				/>
 			</Box>
 
 			<Box textAlign={{ xs: 'center', md: 'left' }} ml={{ md: 4 }}>
-				<Typography variant='h4' color='primary' gutterBottom>
+				<Typography
+					variant='h4'
+					color='primary'
+					gutterBottom
+					sx={{
+						fontSize: { xs: '1.5rem', sm: '2rem', lg: '2.5rem' } // Размер шрифта заголовка
+					}}
+				>
 					Что входит в комплект
 				</Typography>
 				<List>
 					{items.map((item, index) => (
 						<React.Fragment key={item.id}>
 							<ListItem>
-								<Box display='flex' alignItems='center' width='100%'>
+								<Box
+									display='flex'
+									alignItems='center'
+									width='100%'
+									gap={2}
+								>
+									{' '}
+									{/* Добавляем отступы между иконкой и текстом */}
 									<img
 										src={item.icon}
 										alt={`${item.label} Icon`}
 										style={{
 											width: '24px',
-											height: '24px',
-											marginRight: '16px'
+											height: '24px'
 										}}
 									/>
-									<Typography variant='h6' color='textPrimary'>
+									<Typography
+										variant='h6'
+										color='textPrimary'
+										sx={{
+											fontSize: {
+												xs: '0.875rem',
+												sm: '1rem',
+												lg: '1.125rem'
+											}, // Адаптивный размер текста
+											lineHeight: { xs: '1.5', sm: '1.6', lg: '1.7' } // Адаптивный межстрочный интервал
+										}}
+									>
 										{item.label}
 									</Typography>
 								</Box>

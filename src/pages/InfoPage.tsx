@@ -3,7 +3,6 @@ import React from 'react'
 const InfoPage: React.FC = () => {
 	return (
 		<div className='flex flex-col lg:flex-row items-center justify-between p-8 lg:p-16'>
-			{/* Left section */}
 			<div className='lg:w-1/2'>
 				<h1 className='text-3xl lg:text-5xl font-bold text-gray-800 mb-6'>
 					Good headphones <br /> and loud music is all you need

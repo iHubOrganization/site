@@ -27,7 +27,8 @@ const ProductList: React.FC<ProductListProps> = ({
 				display: 'flex',
 				justifyContent: 'center',
 				flexWrap: 'wrap',
-				gap: 3
+				gap: { xs: 2, sm: 3, md: 4 }, // Адаптивный промежуток между продуктами
+				px: { xs: 2, sm: 4 } // Адаптивные отступы по бокам
 			}}
 		>
 			{productList.map((product) => {
@@ -39,7 +40,9 @@ const ProductList: React.FC<ProductListProps> = ({
 					<Box
 						key={product.title}
 						sx={{
-							width: 'auto',
+							width: {
+								xl: '30%' // Три продукта на экранах xl
+							},
 							display: 'flex',
 							justifyContent: 'center'
 						}}

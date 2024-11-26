@@ -1,4 +1,3 @@
-// src/components/common/Product.tsx
 import React from 'react'
 import {
 	Card,
@@ -15,6 +14,7 @@ export interface PropOption {
 	name: string
 	color: string
 }
+
 export interface ProductType {
 	title: string
 	grade: string
@@ -59,7 +59,6 @@ const Product: React.FC<ProductProps> = ({
 	return (
 		<Card
 			sx={{
-				maxWidth: 350,
 				backgroundColor: 'white',
 				cursor: 'pointer',
 				transition: 'transform 0.3s',
@@ -68,7 +67,14 @@ const Product: React.FC<ProductProps> = ({
 			}}
 			onClick={onClick}
 		>
-			<Box sx={{ position: 'relative', height: 350, width: 350 }}>
+			<Box
+				sx={{
+					position: 'relative',
+					width: '350px', // Фиксированная ширина до 1300px
+					height: '350px',
+					transition: 'width 0.3s, height 0.3s' // Плавный переход при изменении размеров
+				}}
+			>
 				<CardMedia
 					component='img'
 					image={product.img}
@@ -110,25 +116,73 @@ const Product: React.FC<ProductProps> = ({
 					</Badge>
 				</IconButton>
 			</Box>
-			<CardContent>
+			<CardContent
+				sx={{
+					padding: {
+						xs: '12px',
+						sm: '16px',
+						'@media (min-width:1300px)': '20px'
+					},
+					transition: 'padding 0.3s'
+				}}
+			>
 				<Box
 					display='flex'
 					alignItems='center'
 					justifyContent='space-between'
+					sx={{ mb: { xs: 1, sm: 2, '@media (min-width:1300px)': 3 } }}
 				>
 					<Box display='flex' alignItems='center'>
 						{[...Array(5)].map((_, index) => (
 							<FaStar key={index} color='#FFD700' size={18} />
 						))}
-						<Typography variant='body2' color='textSecondary' ml={1}>
+						<Typography
+							variant='body2'
+							color='textSecondary'
+							ml={1}
+							sx={{
+								fontSize: {
+									xs: '0.875rem',
+									sm: '1rem'
+								},
+								transition: 'font-size 0.3s'
+							}}
+						>
 							{product.grade}
 						</Typography>
 					</Box>
-					<Typography variant='body2' color='textSecondary'>
+					<Typography
+						variant='body2'
+						color='textSecondary'
+						sx={{
+							fontSize: {
+								xs: '0.875rem',
+								sm: '1rem'
+							},
+							transition: 'font-size 0.3s'
+						}}
+					>
 						{product.price} руб.
 					</Typography>
 				</Box>
-				<Typography variant='h6' component='div'>
+				<Typography
+					variant='h6'
+					component='div'
+					sx={{
+						fontSize: {
+							xs: '1rem',
+							sm: '1.125rem',
+							'@media (min-width:1300px)': '1.5rem'
+						}, // Увеличение шрифта при больших экранах
+						fontWeight: 'bold',
+						lineHeight: {
+							xs: '1.4',
+							sm: '1.5',
+							'@media (min-width:1300px)': '1.75'
+						},
+						transition: 'font-size 0.3s, line-height 0.3s'
+					}}
+				>
 					{product.title}
 				</Typography>
 			</CardContent>

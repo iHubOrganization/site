@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
-import HomePage from '../components/common/HomePage'
 import ProductList from '../components/common/ProductList'
-import ResponsiveSlider from '../components/common/ResponsiveSlider'
 import WhatInTheBox from '../components/common/WhatInTheBox'
 import Order from '../components/common/Order'
 import Footer from '../components/common/Footer'
@@ -12,7 +10,8 @@ import { productList } from '../data/productList'
 import { ProductType } from '../components/common/Product'
 import { Box, Typography, Modal } from '@mui/material'
 import 'react-toastify/dist/ReactToastify.css'
-import InfoPage from './InfoPage'
+import WelcomeScreen from './WelcomeScreen'
+import { styled } from '@mui/system'
 
 export interface FormData {
 	name: string
@@ -27,8 +26,26 @@ export interface CartItem {
 	quantity: number
 	price: string
 	color?: string
-	caseType?: string | null // Добавляем поддержку null
+	caseType?: string | null
 }
+
+const ScrollContainer = styled(Box)({
+	'&::-webkit-scrollbar': {
+		width: '8px'
+	},
+	'&::-webkit-scrollbar-thumb': {
+		backgroundColor: '#888',
+		borderRadius: '4px'
+	},
+	'&::-webkit-scrollbar-thumb:hover': {
+		backgroundColor: '#555'
+	},
+	margin: '0 auto',
+	position: 'relative',
+	backgroundColor: 'white',
+	minHeight: '100vh',
+	overflowX: 'hidden'
+})
 
 function MainPage() {
 	const [formData, setFormData] = useState<FormData>({
@@ -115,98 +132,100 @@ function MainPage() {
 		setSelectedProduct(product)
 	}
 
+	const handleEnterShop = () => {}
+
 	return (
-		<Box
-			sx={{
-				width: '100%',
-				backgroundColor: 'white',
-				minHeight: '100vh',
-				px: { xs: 2, md: 3, lg: 6 },
-				pt: 3,
-				overflowY: 'auto',
-				overflowX: 'hidden',
-				'&::-webkit-scrollbar': {
-					width: '8px'
-				},
-				'&::-webkit-scrollbar-thumb': {
-					backgroundColor: '#888',
-					borderRadius: '4px'
-				}
-			}}
-		>
-			{totalItems > 0 && (
-				<Box
-					sx={{
-						position: 'fixed',
-						top: 16,
-						right: 16,
-						zIndex: 1300,
-						transition: 'opacity 0.5s',
-						opacity: 1
-					}}
-				>
-					<CartIcon cart={cart} onClick={() => setIsCartOpen(true)} />
-				</Box>
-			)}
-
-			<Box sx={{ p: { xs: 2, md: 3, lg: 4 } }}>
-				<Typography
-					variant='h4'
-					color='primary'
-					align='center'
-					gutterBottom
-					sx={{ marginBottom: 4 }}
-				>
-					Наши продукты
-				</Typography>
-				<ProductList
-					productList={productList}
-					toggleCartItem={toggleCartItem}
-					cart={cart}
-					onProductClick={handleProductClick}
-				/>
-				<WhatInTheBox />
-				<Box id='order-section'>
-					<Order
-						formData={formData}
-						setFormData={setFormData}
-						cartItems={cart}
-						totalAmount={totalAmount}
-						clearCart={clearCart}
-					/>
-				</Box>
+		<ScrollContainer>
+			<Box
+				id='welcome-screen'
+				sx={{
+					width: '100%',
+					height: '100vh',
+					backgroundColor: 'white',
+					zIndex: 1400
+				}}
+			>
+				<WelcomeScreen onEnter={handleEnterShop} />
 			</Box>
-			<Footer />
 
-			<Modal open={isCartOpen} onClose={() => setIsCartOpen(false)}>
+			<Box id='main-content'>
+				{totalItems > 0 && (
+					<Box
+						sx={{
+							position: 'fixed',
+							top: 16,
+							right: 16,
+							zIndex: 1300,
+							transition: 'opacity 0.5s',
+							opacity: 1
+						}}
+					>
+						<CartIcon cart={cart} onClick={() => setIsCartOpen(true)} />
+					</Box>
+				)}
 				<Box
 					sx={{
-						position: 'absolute',
-						top: '50%',
-						left: '50%',
-						transform: 'translate(-50%, -50%)',
-						width: '90%',
-						maxWidth: 500
+						mt: { xs: 5, md: 8 }
 					}}
 				>
-					<CartPage
+					<Typography
+						variant='h4'
+						color='primary'
+						align='center'
+						gutterBottom
+						sx={{ marginBottom: 4 }}
+					>
+						Наши продукты
+					</Typography>
+					<ProductList
+						productList={productList}
+						toggleCartItem={toggleCartItem}
 						cart={cart}
-						clearCart={clearCart}
-						onOrderClick={scrollToOrder}
-						totalAmount={totalAmount}
+						onProductClick={handleProductClick}
 					/>
+					<WhatInTheBox />
+					<Box id='order-section'>
+						<Order
+							formData={formData}
+							setFormData={setFormData}
+							cartItems={cart}
+							totalAmount={totalAmount}
+							clearCart={clearCart}
+						/>
+					</Box>
 				</Box>
-			</Modal>
+				<Footer />
 
-			{selectedProduct && (
-				<ProductPopup
-					open={Boolean(selectedProduct)}
-					onClose={() => setSelectedProduct(null)}
-					product={selectedProduct}
-					toggleCartItem={toggleCartItem}
-				/>
-			)}
-		</Box>
+				<Modal open={isCartOpen} onClose={() => setIsCartOpen(false)}>
+					<Box
+						sx={{
+							position: 'absolute',
+							top: '50%',
+							left: '50%',
+							transform: 'translate(-50%, -50%)',
+							width: '90%',
+							maxWidth: 500
+						}}
+					>
+						<CartPage
+							cart={cart}
+							clearCart={clearCart}
+							onOrderClick={scrollToOrder}
+							totalAmount={totalAmount}
+						/>
+					</Box>
+				</Modal>
+
+				{selectedProduct && (
+					<ProductPopup
+						open={Boolean(selectedProduct)}
+						onClose={() => setSelectedProduct(null)}
+						product={selectedProduct}
+						toggleCartItem={toggleCartItem}
+					/>
+				)}
+			</Box>
+		</ScrollContainer>
 	)
 }
 
