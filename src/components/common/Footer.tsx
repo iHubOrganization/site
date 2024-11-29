@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
 			sx={{
 				mt: { xs: 5, md: 8 },
 				width: '100%',
-				backgroundColor: '#F54F29',
+				backgroundColor: '#0077B6',
 				p: { xs: 3, sm: 4, md: 5, lg: 6, xl: 7 }, // Адаптивные отступы
 				color: 'white',
 				textAlign: 'center',

@@ -122,7 +122,7 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 									sx={{
 										border:
 											mainImage === image
-												? '2px solid #F54F29'
+												? '2px solid #1976d2'
 												: '1px solid #ccc',
 										borderRadius: '4px',
 										cursor: 'pointer',
