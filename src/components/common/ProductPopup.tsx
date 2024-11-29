@@ -122,7 +122,7 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 									sx={{
 										border:
 											mainImage === image
-												? '2px solid #1976d2'
+												? '2px solid #F54F29'
 												: '1px solid #ccc',
 										borderRadius: '4px',
 										cursor: 'pointer',
@@ -275,7 +275,7 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 									))}
 								</Box>
 								{/* Добавим возможность видеть среднюю оценку */}
-								<Typography variant='body2' sx={{ color: '#1976d2' }}>
+								<Typography variant='body2'>
 									Средняя оценка: {product.grade}
 								</Typography>
 							</Box>

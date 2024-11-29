@@ -117,13 +117,13 @@ const CartPage: React.FC<CartPageProps> = ({
 							style={{ flex: 1 }}
 						>
 							<Button
-								variant='contained'
+								variant='outlined'
 								color='secondary'
 								startIcon={<FaTrash />}
 								fullWidth
 								onClick={clearCart}
 								sx={{
-									color: 'white',
+									color: '#F54F29',
 									py: 1.5,
 									boxShadow: 3
 								}}

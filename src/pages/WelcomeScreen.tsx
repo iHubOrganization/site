@@ -1,5 +1,5 @@
 import { Box, Typography, Button } from '@mui/material'
-import logo from '../assets/blueLogo.svg'
+import logo from '../assets/orangeLogo.png'
 
 interface WelcomeScreenProps {
 	onEnter: () => void
@@ -14,7 +14,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
 				left: 0,
 				width: '100%',
 				height: '100vh',
-				backgroundColor: '#0077B6', // Заменен фон
+				backgroundColor: '#F54F29', // Заменен фон
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
@@ -57,7 +57,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
 			</Typography>
 			<Button
 				variant='outlined'
-				color='primary'
+				color='secondary'
 				size='large'
 				onClick={onEnter}
 				sx={{
