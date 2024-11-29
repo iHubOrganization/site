@@ -35,7 +35,7 @@ export const productList: ProductType[] = [
 		title: 'AirPods Max',
 		grade: '4.80',
 		img: max12,
-		price: '9990',
+		price: '12990',
 		colorOptions: [
 			{ name: 'Розовый', color: '#FE9792' },
 			{ name: 'Серый', color: '#4F4E53' },
@@ -58,7 +58,7 @@ export const productList: ProductType[] = [
 		title: 'AirPods Pro',
 		grade: '4.90',
 		img: pro7,
-		price: '3490',
+		price: '3990',
 		caseOptions: [
 			{ name: 'Персиковый', color: '#F4A261' },
 			{ name: 'Коралловый', color: '#FF6F61' },
@@ -72,7 +72,7 @@ export const productList: ProductType[] = [
 		title: 'AirPods 2',
 		grade: '4.70',
 		img: two4,
-		price: '1990',
+		price: '2990',
 		caseOptions: [
 			{ name: 'Персиковый', color: '#F4A261' },
 			{ name: 'Коралловый', color: '#FF6F61' },
@@ -86,7 +86,7 @@ export const productList: ProductType[] = [
 		title: 'AirPods 3',
 		grade: '4.75',
 		img: three8,
-		price: '2490',
+		price: '3490',
 		caseOptions: [
 			{ name: 'Синий', color: '#0077B6' },
 			{ name: 'Лавандовый', color: '#6A5ACD' },
@@ -100,7 +100,7 @@ export const productList: ProductType[] = [
 		title: 'Apple Watch Series 9',
 		grade: '4.85',
 		img: whatch9_1,
-		price: '3990',
+		price: '5990',
 		colorOptions: [
 			{ name: 'Оранжевый', color: '#FF8C00' },
 			{ name: 'Зелёный', color: '#2E8B57' },
@@ -114,7 +114,7 @@ export const productList: ProductType[] = [
 		title: 'Apple Watch Ultra 2',
 		grade: '4.95',
 		img: ultra2,
-		price: '4990',
+		price: '7990',
 		colorOptions: [
 			{ name: 'Оранжевый', color: '#FF8C00' },
 			{ name: 'Зелёный', color: '#2E8B57' },
