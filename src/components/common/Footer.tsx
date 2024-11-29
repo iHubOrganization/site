@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
 					<FaInstagram />
 				</IconButton>
 				<IconButton
-					href='https://t.me/i_iiHub'
+					href='https://t.me/i_Hub'
 					target='_blank'
 					rel='noopener noreferrer'
 					aria-label='Telegram'

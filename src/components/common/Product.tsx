@@ -23,7 +23,7 @@ export interface ProductType {
 	colorOptions?: PropOption[]
 	caseOptions?: PropOption[]
 	backgroundColor: string
-	additionalImages?: string[]
+	additionalImages: string[]
 }
 
 interface ProductProps {

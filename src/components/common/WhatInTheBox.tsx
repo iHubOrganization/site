@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Typography, List, ListItem, Divider } from '@mui/material'
 import chargerIcon from '../../assets/ChargerIcon.png'
-import whatInTheBox from '../../assets/whatInTheBox.png'
+import whatInTheBox from '../../assets/multi.jpeg'
 
 const items = [
 	{ id: 1, label: 'Зарядный кабель', icon: chargerIcon },

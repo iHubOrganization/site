@@ -29,6 +29,7 @@ interface ProductPopupProps {
 	) => void
 }
 
+
 const ProductPopup: React.FC<ProductPopupProps> = ({
 	open,
 	onClose,
@@ -41,7 +42,9 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 	const [selectedCase, setSelectedCase] = useState<PropOption>(
 		product.caseOptions?.[0] || { name: '', color: '' }
 	)
-	const [mainImage, setMainImage] = useState<string>(product.img)
+	const [mainImage, setMainImage] = useState<string>(
+		product.additionalImages[0]
+	)
 
 	const handleAddToCart = () => {
 		toggleCartItem(product, 1, selectedColor.name, selectedCase.name)
@@ -74,24 +77,45 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 					<Grid item xs={12} md={6}>
 						<Box
 							sx={{
-								width: '100%',
 								borderRadius: '8px',
 								marginBottom: 2,
-								backgroundColor: product.backgroundColor
+								backgroundColor: 'white',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+								height: '414px'
 							}}
 						>
-							<img
-								src={mainImage}
-								alt={product.title}
-								style={{
-									width: '414px',
-									height: '414px',
-									objectFit: 'cover',
-									borderRadius: '8px'
+							<Box
+								sx={{
+									maxWidth: '414px',
+									maxHeight: '414px',
+									borderRadius: '8px',
+									backgroundColor: 'white',
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center'
 								}}
-							/>
+							>
+								<img
+									src={mainImage}
+									alt={product.title}
+									style={{
+										width: '100%',
+										height: '100%',
+										objectFit: 'cover',
+										borderRadius: '8px'
+									}}
+								/>
+							</Box>
 						</Box>
-						<Box sx={{ display: 'flex', gap: 1 }}>
+						<Box
+							sx={{
+								display: 'flex',
+								gap: 1,
+								justifyContent: 'space-around'
+							}}
+						>
 							{product.additionalImages?.map((image, index) => (
 								<Box
 									key={index}
@@ -124,40 +148,10 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 								</Box>
 							))}
 							{/* Добавляем основное изображение в конец списка */}
-							<Box
-								key='main-image'
-								sx={{
-									border:
-										mainImage === product.img
-											? '2px solid #1976d2'
-											: '1px solid #ccc',
-									borderRadius: '4px',
-									cursor: 'pointer',
-									width: 60,
-									height: 60,
-									display: 'flex',
-									alignItems: 'center',
-									backgroundColor: '#f9f9f9'
-								}}
-								onClick={() => setMainImage(product.img)}
-							>
-								<img
-									src={product.img}
-									style={{
-										width: '100%',
-										height: '100%',
-										objectFit: 'cover',
-										borderRadius: '4px'
-									}}
-									title='Нажмите, чтобы увеличить'
-									role='button'
-								/>
-							</Box>
 						</Box>
 					</Grid>
 
 					<Grid item xs={12} md={6}>
-						{/* Выбор цвета и чехла */}
 						{product.colorOptions && (
 							<FormControl fullWidth margin='normal'>
 								<InputLabel>Цвет</InputLabel>
