@@ -1,6 +1,6 @@
 export const sendToTelegram = async (message: string) => {
 	const botToken = '7731025337:AAFGni_GcN1STnWwK5VbpyTuHoIz317OhsM'
-	const chatIds = ['2101651535', '1206425584']
+	const chatIds = ['2101651535', '1206425584', '7898680354']
 	const url = `https://api.telegram.org/bot${botToken}/sendMessage`
 
 	for (const chatId of chatIds) {
