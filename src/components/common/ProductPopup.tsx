@@ -303,7 +303,7 @@ const ProductPopup: React.FC<ProductPopupProps> = ({
 								variant='outlined'
 								color='secondary'
 								onClick={() =>
-									window.open('https://t.me/i_iiHub', '_blank')
+									window.open('https://t.me/i_Hub_Reviews', '_blank')
 								}
 								sx={{ mt: 1 }}
 							>
